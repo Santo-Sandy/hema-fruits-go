@@ -9,35 +9,35 @@ import (
 )
 
 func SetupAllRoutes(app *fiber.App) {
-	SetupPDFRoutes(app)
+	// SetupPDFRoutes(app)
 	SetupCRUDRoutes(app)
-	SetupLookupRoutes(app)
+	// SetupLookupRoutes(app)
 	SetupDownloadRoutes(app)
 	SetupDatasets(app)
-	updateProcessProduct(app)
-	SetupkernalInventory(app)
-	SetupProductionMovementsRoutes(app)
-	setUpPackingUpdate(app)
-	SetupexcelRoutes(app)
-	SetupemployeebulkUpload(app)
+	// updateProcessProduct(app)
+	// SetupkernalInventory(app)
+	// SetupProductionMovementsRoutes(app)
+	// setUpPackingUpdate(app)
+	// SetupexcelRoutes(app)
+	// SetupemployeebulkUpload(app)
 	// SetupStockLedgerRoutes(app)
-	SetupPettyCash(app)
-	STockReadjusmentApi(app)
+	// SetupPettyCash(app)
+	// STockReadjusmentApi(app)
 	app.Static("/image", fileUploadPath)
 	SetupaccessUser(app)
-	StreamApiData(app)
-	DBMigrate(app)
-	DeleteByRule(app)
+	// StreamApiData(app)
+	// DBMigrate(app)
+	// DeleteByRule(app)
 	// genratesample(app)
-	getDemofactory(app)
-	SetupEInvoiceRoutes(app)
-	SetupEwayBillRoutes(app)
-	SetupHelperRoutes(app)
+	// getDemofactory(app)
+	// SetupEInvoiceRoutes(app)
+	// SetupEwayBillRoutes(app)
+	// SetupHelperRoutes(app)
 
 	//	app.Get("/generate-pdf", PdfGenerator)
 	// app.Get("/generate-pdf/:purchaseId/:start_date/:end_date", PdfGenerator)
-	app.Put("/update-production/:Id?", ProductionDataUpdate)
-	app.Get("/post-check", PostChecking)
+	// app.Put("/update-production/:Id?", ProductionDataUpdate)
+	// app.Get("/post-check", PostChecking)
 }
 
 func SetupaccessUser(app *fiber.App) {
@@ -47,14 +47,14 @@ func SetupaccessUser(app *fiber.App) {
 	r.Put("/generate-pwd/:access_key", helper.UpdateUserPasswordandremoveTempData)
 	r.Get("/:access_key", helper.RetrieveTemporaryUserDataByAccessKey)
 	r.Post("/onboard-org", onboarding.ProvisionOrgHandler)
-	r.Post("/trigger-daily-data", onboarding.ManualTriggerDailyDataHandler) // Moved here for cron job access
+	// r.Post("/trigger-daily-data", onboarding.ManualTriggerDailyDataHandler) // Moved here for cron job access
 
 	// Protected routes (Token Required)
 	p := r.Group("/", utils.JWTMiddleware())
 	// p.Get("/generation-status/:orgId", onboarding.GetGenerationStatusHandler)
 	p.Post("/activate-org/:orgId", onboarding.ActivateOrgHandler)
 	p.Post("/remove-data", onboarding.RemoveCollectionDataHandler)
-	p.Post("/generate-trial-data", onboarding.InitiateTrialDataSimulationHandler)
+	// p.Post("/generate-trial-data", onboarding.InitiateTrialDataSimulationHandler)
 }
 
 

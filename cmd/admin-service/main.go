@@ -29,8 +29,8 @@ func main() {
 	database.Init()
 
 	// Start daily trial data scheduler
-	log.Println("[Main] Starting daily trial data scheduler...")
-	go onboarding.StartDailyTrialDataScheduler()
+	// log.Println("[Main] Starting daily trial data scheduler...")
+	// go onboarding.StartDailyTrialDataScheduler()
 
 	// Set up authentication routes for routes that do not require a token.
 	authentication.SetupRoutes(app)
