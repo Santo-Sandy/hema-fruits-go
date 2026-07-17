@@ -1,0 +1,1264 @@
+{
+	"pageHeading": "RCN International Purchase",
+	"formType": "simple",
+	"onCancelRoute": "/list/inward-international",
+	"editMode": "drawer",
+	"viewMode": "drawer",
+	"ss": "true",
+	"noCancel": true,
+	"noBack": false,
+	"aggrid": true,
+	"txnType": "PURCHASE",
+	"dataset": true,
+	"datasetName": "internationalpurchase",
+	"nextCollectionName": "internationalpayment",
+	"refkeyField": "purchase_id",
+	"referencefield": "payment_details",
+	"appendCtrl": true,
+	"token_need_to_set": false,
+	"totalSaveNoNeed": true,
+	"keyField": "_id",
+	"form": {
+		"dependentCollection": [
+			"stock-ledger"
+		],
+		"collectionName": "purchase",
+		"fields": [
+			{
+				"fieldGroupClassName": "d-grid d-g-3",
+				"fieldGroup": [
+					{
+						"type": "date-input",
+						"key": "dop",
+						"className": "flex-1",
+						"props": {
+							"required": true,
+							"attributes": {
+								"hide": "future_date"
+							},
+							"label": "Date of Purchase",
+							"disabled": false
+						},
+						"validation": {
+							"messages": {
+								"required": "This field is required"
+							}
+						}
+					},
+					{
+						"type": "select-input",
+						"className": "flex-1",
+						"key": "company_name",
+						"props": {
+							"label": "Supplier Name",
+							"labelPropTemplate": "{{customer_name}}",
+							"optionsDataSource": {
+								"multifilter": "customer"
+							},
+							"multifilter_condition": {
+								"clause": "AND",
+								"conditions": [
+									{
+										"column": "customer_type.Supplier",
+										"operator": "EQUALS",
+										"type": "string",
+										"value": true
+									},
+									{
+										"column": "type_of_customer",
+										"operator": "EQUALS",
+										"type": "string",
+										"value": "International"
+									}
+								]
+							},
+							"updateModel": true,
+							"valueProp": "_id",
+							"required": true
+						},
+						"validation": {
+							"messages": {
+								"required": "Supplier Name should be select."
+							}
+						}
+					},
+					{
+						"type": "select-input",
+						"key": "country_origin",
+						"className": "flex-1",
+						"props": {
+							"label": "Country of Origin",
+							"required": true,
+							"labelPropTemplate": "{{name}}",
+							"optionsDataSource": {
+								"collectionName": "origin"
+							},
+							"updateModel": true,
+							"labelProp": "name",
+							"valueProp": "_id"
+						},
+						"validation": {
+							"messages": {
+								"required": "This field is required"
+							}
+						}
+					},
+					{
+						"key": "status_type",
+						"className": "flex-1",
+						"type": "input",
+						"props": {
+							"label": "Status Type",
+							"readonly": true
+						},
+						"hideExpression": "!model._id"
+					}
+				]
+			},
+			{
+				"type": "new-stepper-input",
+				"className": "row",
+				"props": {
+					"eachStepSave": true,
+					"collectionName": "purchase",
+					"defaultValues": [
+						{
+							"colName": "_id",
+							"type": "prefix",
+							"adddate": "YYYY",
+							"addOrg": true,
+							"static": "PURCH-INT-"
+						},
+						{
+							"colName": "purchasetype",
+							"value": "International",
+							"type": "string"
+						},
+						{
+							"type": "exp",
+							"source": "session",
+							"value": "selectedOrgId",
+							"colName": "org_id"
+						},
+						{
+							"colName": "status",
+							"value": "Active",
+							"type": "string"
+						}
+					]
+				},
+				"fieldGroupClassName": "row",
+				"fieldGroup": [
+					{
+						"className": "row",
+						"props": {
+							"label": "Contract Info",
+							"eachStepSave": true,
+							"AddDefaultValues": [
+								{
+									"fields": "status_type",
+									"value": "Contract Signed"
+								}
+							]
+						},
+						"fieldGroup": [
+							{
+								"fieldGroupClassName": "d-grid d-g-1-1-1-1-1",
+								"fieldGroup": [
+									{
+										"type": "custom-input",
+										"key": "purchase_weight",
+										"className": "flex-1",
+										"props": {
+											"label": "Purchase Net Weight (kg)",
+											"disabled": false,
+											"isExcludeScientificNotation": true,
+											"step": "0.01",
+											"min": 0,
+											"pattern": "^[0-9]{1,9}(\\.[0-9]{1,4})?$",
+											"required": true
+										},
+										"validation": {
+											"messages": {
+												"pattern": "Value must be a number with up to 9 digits and 4 digits after decimal.",
+												"required": "This field is required"
+											}
+										}
+									},
+									{
+										"type": "custom-input",
+										"key": "purchase_price",
+										"className": "flex-1",
+										"props": {
+											"label": "Purchase Price per MT ($)",
+											"pattern": "^(?:\\d{0,4}(?:\\.\\d{0,2})?)?$",
+											"disabled": false,
+											"isExcludeScientificNotation": true,
+											"required": true
+										},
+										"validation": {
+											"messages": {
+												"pattern": "Amount can’t exceed 9999.99 (only 2 decimals allowed).",
+												"required": "This field is required"
+											}
+										}
+									},
+									{
+										"type": "custom-input",
+										"key": "purchase_out_turn",
+										"className": "flex-1",
+										"templateOptions": {},
+										"props": {
+											"label": "Purchase Out Turn",
+											"step": "0.01",
+											"isExcludeScientificNotation": true,
+											"min": 0,
+											"pattern": "^(2[5-9]|[3-4][0-9]|5[0-5])(\\.[0-9]{1,2})?$",
+											"required": true
+										},
+										"validation": {
+											"messages": {
+												"pattern": "OutTurn must be between 25 and 55.",
+												"required": "This field is required"
+											}
+										}
+									},
+									{
+										"type": "custom-input",
+										"key": "purchase_nut_count",
+										"className": "flex-1",
+										"props": {
+											"label": "Nut Count",
+											"min": 140,
+											"max": 250,
+											"isExcludeScientificNotation": true,
+											"pattern": "^(14[0-9]|1[5-9][0-9]|2[0-4][0-9]|250)$",
+											"step": 1,
+											"title": "Number must be between 140 and 250.",
+											"required": true
+										},
+										"validation": {
+											"messages": {
+												"pattern": "Nut Count must be between 145 and 250.",
+												"required": "This field is required"
+											}
+										}
+									},
+									{
+										"type": "input",
+										"key": "contract_info",
+										"className": "flex-1",
+										"props": {
+											"label": "Contract No",
+											"pattern": "^(?!\\s*$)[A-Za-z0-9_-]{1,50}$",
+											"disabled": false,
+											"required": true
+										},
+										"validation": {
+											"messages": {
+												"pattern": "Invalid Contract No",
+												"required": "Contract No is required"
+											}
+										}
+									}
+								]
+							},
+							{
+								"fieldGroupClassName": "d-grid d-g-3",
+								"fieldGroup": []
+							},
+							{
+								"fieldGroupClassName": "d-grid d-g-3",
+								"fieldGroup": [
+									{
+										"type": "image-input",
+										"key": "file-uploads",
+										"className": "flex-1",
+										"props": {
+											"isWarehouse": true,
+											"hide": true,
+											"label": "Warehouse",
+											"optionsDataSource": {
+												"multifilter": "company"
+											},
+											"updateModel": true,
+											"labelProp": "name",
+											"valueProp": "_id"
+										}
+									}
+								]
+							}
+						]
+					},
+					{
+						"className": "row",
+						"props": {
+							"label": "Payments",
+							"eachStepSave": true,
+							"AddDefaultValues": [
+								{
+									"fields": "status_type",
+									"value": "Advance Paid"
+								}
+							]
+						},
+						"fieldGroup": [
+							{
+								"type": "aggrid",
+								"key": "payment_details",
+								"props": {
+									"cellEditStartField": "date",
+									"refKey": "purchase_id",
+									"refkeyField": "purchase_id",
+									"refValue": "_id",
+									"addvalue": "_id",
+									"label": "Payment",
+									"totalMax": 100,
+									"totalField": "percentage",
+									"addMode": "popup",
+									"height": "39vh",
+									"addkey": "purchase_id",
+									"collectionName": "internationalpayment",
+									"editType": "fullRow",
+									"checkRowData": true,
+									"nextCollectionName": "internationalpayment",
+									"updateEndpoint": "entities/internationalpayment",
+									"actions": [
+										{
+											"label": "Edit",
+											"icon": "edit",
+											"formName": "entities/modules",
+											"formAction": "edit"
+										},
+										{
+											"label": "Delete",
+											"icon": "delete",
+											"formName": "entities/modules",
+											"formAction": "delete"
+										}
+									],
+									"gridOptions": {
+										"columnDefs": [
+											{
+												"headerName": "Date",
+												"field": "date",
+												"width": 180,
+												"cellRendererChange": true,
+												"filter": "agDateColumnFilter",
+												"cellEditor": "dateeditor",
+												"editable": false,
+												"type": "date",
+												"cellEditorParams": {
+													"minValidYear": 1900,
+													"maxValidYear": 2100
+												},
+												"valueFormatter": "dateValueFormatter"
+											},
+											{
+												"headerName": "Advance Paid (%)",
+												"field": "percentage",
+												"width": 210,
+												"editable": false,
+												"cellRendererChange": true,
+												"cellEditor": "agNumberCellEditor",
+												"cellEditorParams": {
+													"formetnum": true,
+													"min": 0,
+													"max": 100
+												},
+												"filter": "agNumberColumnFilter",
+												"suffix": "%",
+												"cellClass": "my-right-aligned-cell"
+											},
+											{
+												"headerName": "Remittance Amount ($)",
+												"field": "remittanceamount",
+												"width": 250,
+												"editable": false,
+												"cellRendererChange": true,
+												"cellEditor": "agNumberCellEditor",
+												"filter": "agNumberColumnFilter",
+												"prefix": "USS ",
+												"type": "currency",
+												"cellClass": "my-right-aligned-cell",
+												"cellEditorParams": {
+													"formetnum": true,
+													"min": 0,
+													"max": 1000000000
+												}
+											},
+											{
+												"headerName": "Exchange Rate",
+												"field": "exchangerate",
+												"width": 250,
+												"editable": false,
+												"cellRendererChange": true,
+												"cellEditor": "agNumberCellEditor",
+												"filter": "agNumberColumnFilter",
+												"cellClass": "my-right-aligned-cell",
+												"cellEditorParams": {
+													"min": 0,
+													"max": 1000000000
+												}
+											},
+											{
+												"headerName": "Amount (INR)",
+												"field": "amount",
+												"width": 250,
+												"editable": false,
+												"cellRendererChange": true,
+												"cellEditor": "agNumberCellEditor",
+												"filter": "agNumberColumnFilter",
+												"type": "currency",
+												"cellClass": "my-right-aligned-cell",
+												"cellEditorParams": {
+													"formetnum": true,
+													"min": 0,
+													"max": 1000000000
+												}
+											},
+											{
+												"headerName": "Remittance Charge (INR)",
+												"field": "remittancecharge",
+												"width": 250,
+												"editable": false,
+												"cellRendererChange": true,
+												"cellEditor": "agNumberCellEditor",
+												"filter": "agNumberColumnFilter",
+												"type": "currency",
+												"cellClass": "my-right-aligned-cell",
+												"cellEditorParams": {
+													"formetnum": true,
+													"min": 0,
+													"max": 1000000000
+												}
+											},
+											{
+												"headerName": "Account Debited",
+												"type": "rightAligned",
+												"field": "amountdebited",
+												"width": 350,
+												"cellRendererChange": true,
+												"editable": false,
+												"sortable": true,
+												"accountDebit": true,
+												"cellEditor": "mat_autoComplete",
+												"fullobject": true,
+												"valueProp": "bank_name",
+												"cellEditorParams": {
+													"collectionName": "bank_details",
+													"labelPropTemplate": "{{bank_name}} / {{account_number}}",
+													"labelProp": "bank_name",
+													"labelreadonly": true,
+													"config": [
+														{
+															"from_key": "_id",
+															"to_key": "amountdebited"
+														}
+													],
+													"reset": true,
+													"valueProp": "_id"
+												}
+											},
+											{
+												"headerName": "Support Document",
+												"field": "payment_details_file_uploads",
+												"width": 250,
+												"editable": false,
+												"cellRendererChange": true,
+												"cellEditor": "agNumberCellEditor",
+												"filter": "agNumberColumnFilter",
+												"cellClass": "my-right-aligned-cell",
+												"cellRenderer": "imageCellRenderer"
+											},
+											{
+												"type": "rightAligned",
+												"headerName": "",
+												"field": "Action",
+												"lockPosition": "right",
+												"maxWidth": 25,
+												"menuTabs": [],
+												"lockPinned": true,
+												"pinned": "right",
+												"cellRenderer": "buttonRenderer",
+												"cellRendererParams": {
+													"onClick": "this.onBtnClick1.bind(this)",
+													"label": "Click 1"
+												}
+											}
+										]
+									},
+									"fields": [
+										{
+											"fieldGroupClassName": "d-grid d-g-2",
+											"fieldGroup": [
+												{
+													"type": "date-input",
+													"key": "date",
+													"className": "flex-2",
+													"props": {
+														"attributes": {
+															"hide": "future_date"
+														},
+														"label": "Date",
+														"required": true,
+														"disabled": false
+													},
+													"validation": {
+														"messages": {
+															"required": "This field is required"
+														}
+													}
+												},
+												{
+													"type": "custom-input",
+													"key": "percentage",
+													"props": {
+														"pattern": "^(100(\\.0{1,2})?|\\d{1,2}(\\.\\d{1,2})?)$",
+														"label": "Advance Paid (%)",
+														"required": true
+													},
+													"validation": {
+														"messages": {
+															"pattern": "0–100, max 2 decimals.",
+															"required": "This field is required"
+														}
+													}
+												}
+											]
+										},
+										{
+											"fieldGroupClassName": "d-grid d-g-2",
+											"fieldGroup": [
+												{
+													"type": "custom-input",
+													"key": "remittanceamount",
+													"props": {
+														"label": "Remittance Amount ($)",
+														"required": true,
+														"pattern": "^[0-9]{1,15}(\\.[0-9]{1,2})?$"
+													},
+													"validation": {
+														"messages": {
+															"pattern": "Max 15 digits and 2 decimal places allowed.",
+															"required": "This field is required"
+														}
+													}
+												},
+												{
+													"type": "custom-input",
+													"key": "exchangerate",
+													"props": {
+														"label": "Exchange Rate",
+														"pattern": "^[0-9]{1,4}(\\.[0-9]{1,2})?$",
+														"required": true
+													},
+													"validation": {
+														"messages": {
+															"pattern": "Maximum 4 digits allowed, up to 2 decimals.",
+															"required": "This field is required"
+														}
+													}
+												}
+											]
+										},
+										{
+											"fieldGroupClassName": "d-grid d-g-2",
+											"fieldGroup": [
+												{
+													"type": "custom-input",
+													"key": "amount",
+													"props": {
+														"label": "Amount (INR)",
+														"required": true,
+														"pattern": "^[0-9]{1,15}(\\.[0-9]{1,2})?$"
+													},
+													"validation": {
+														"messages": {
+															"pattern": "Max 15 digits and 2 decimal places allowed.",
+															"required": "This field is required"
+														}
+													}
+												},
+												{
+													"type": "custom-input",
+													"key": "remittancecharge",
+													"props": {
+														"label": "Remittance Charge (INR)",
+														"required": true,
+														"pattern": "^[0-9]{1,4}(\\.[0-9]{1,2})?$"
+													},
+													"validation": {
+														"messages": {
+															"pattern": "Max 4 digits and 2 decimal places allowed.",
+															"required": "This field is required"
+														}
+													}
+												}
+											]
+										},
+										{
+											"fieldGroupClassName": "d-grid d-g-1",
+											"fieldGroup": [
+												{
+													"type": "select-input",
+													"key": "amountdebited",
+													"props": {
+														"labelPropTemplate": "{{bank_name}} / {{account_number}}",
+														"label": "Debited Account",
+														"optionsDataSource": {
+															"multifilter": "bank_details",
+															"required": true
+														},
+														"valueProp": "_id"
+													},
+													"validation": {
+														"messages": {
+															"required": "This field is required"
+														}
+													}
+												}
+											]
+										},
+										{
+											"fieldGroupClassName": "d-grid d-g-1",
+											"fieldGroup": [
+												{
+													"type": "image-input",
+													"key": "payment_details_file_uploads",
+													"className": "flex-1",
+													"props": {
+														"isWarehouse": true,
+														"hide": true,
+														"label": "Warehouse",
+														"optionsDataSource": {
+															"multifilter": "company"
+														},
+														"updateModel": true,
+														"labelProp": "name",
+														"valueProp": "_id"
+													}
+												}
+											]
+										}
+									]
+								}
+							}
+						]
+					},
+					{
+						"className": "row",
+						"props": {
+							"label": "Shipping",
+							"eachStepSave": true,
+							"AddDefaultValues": [
+								{
+									"fields": "status_type",
+									"value": "Ship Onboard"
+								}
+							]
+						},
+						"fieldGroup": [
+							{
+								"fieldGroupClassName": "d-grid d-g-3",
+								"fieldGroup": [
+									{
+										"type": "date-input",
+										"key": "loading_date",
+										"className": "flex-1",
+										"props": {
+											"required": true,
+											"label": " Origin Loading Date",
+											"attributes": {
+												"refId": "dop",
+												"hide": "past_future_date"
+											},
+											"disabled": false
+										}
+									},
+									{
+										"type": "custom-input",
+										"key": "Net weight",
+										"className": "flex-1",
+										"templateOptions": {
+											"type": "number",
+											"label": "Net weight",
+											"required": true,
+											"pattern": "^[0-9]{1,9}(\\.[0-9]{1,2})?$"
+										},
+										"validation": {
+											"messages": {
+												"pattern": "Enter a valid weight (max 2 decimals)",
+												"required": "This field is required"
+											}
+										}
+									},
+									{
+										"type": "text-input",
+										"key": "loading_port",
+										"className": "flex-1",
+										"templateOptions": {
+											"type": "text",
+											"label": " Origin Loading Port",
+											"pattern": "^[a-zA-Z ]+$",
+											"required": true
+										},
+										"validation": {
+											"messages": {
+												"required": "This field is required",
+												"pattern": "Only letters allowed."
+											}
+										}
+									}
+								]
+							},
+							{
+								"fieldGroupClassName": "d-grid d-g-3",
+								"fieldGroup": [
+									{
+										"type": "text-input",
+										"key": "bill_of_lading",
+										"className": "flex-1",
+										"templateOptions": {
+											"type": "text",
+											"label": "Bill of Lading",
+											"required": true,
+											"pattern": "^[A-Za-z0-9_-]{1,20}$"
+										},
+										"validation": {
+											"messages": {
+												"required": "This field is required",
+												"pattern": "Only letters and numbers (max 20 characters)."
+											}
+										}
+									},
+									{
+										"type": "text-input",
+										"key": "liner",
+										"className": "flex-1",
+										"templateOptions": {
+											"type": "text",
+											"label": "Liner",
+											"required": true,
+											"pattern": "^[A-Za-z0-9 .-]{2,50}$"
+										},
+										"validation": {
+											"messages": {
+												"required": "This field is required",
+												"pattern": "Only letters allowed."
+											}
+										}
+									},
+									{
+										"type": "select",
+										"key": "destination_loading_port",
+										"className": "flex-1",
+										"props": {
+											"label": "Destination Loading Port",
+											"options": [
+												{
+													"label": "Mangalore",
+													"value": "Mangalore"
+												},
+												{
+													"label": "Tuticorin",
+													"value": "Tuticorin"
+												},
+												{
+													"label": "Panruti",
+													"value": "Panruti"
+												}
+											],
+											"placeholder": "",
+											"disabled": false
+										}
+									}
+								]
+							},
+							{
+								"fieldGroupClassName": "d-grid d-g-3",
+								"fieldGroup": [
+									{
+										"type": "image-input",
+										"key": "shipping_details_file-uploads",
+										"className": "flex-1",
+										"props": {
+											"isWarehouse": true,
+											"hide": true,
+											"label": "Warehouse",
+											"optionsDataSource": {
+												"multifilter": "company"
+											},
+											"updateModel": true,
+											"labelProp": "name",
+											"valueProp": "_id"
+										}
+									}
+								]
+							}
+						]
+					},
+					{
+						"className": "row",
+						"props": {
+							"label": "Freight Exp",
+							"eachStepSave": true,
+							"AddDefaultValues": [
+								{
+									"fields": "status_type",
+									"value": "Ship Onboard"
+								}
+							]
+						},
+						"fieldGroup": [
+							{
+								"fieldGroupClassName": "d-grid d-g-1-1-1-1-1",
+								"fieldGroup": [
+									{
+										"type": "custom-input",
+										"key": "freight_charges",
+										"className": "flex-1",
+										"templateOptions": {
+											"label": "Freight Charges (INR)",
+											"pattern": "^[0-9]{1,9}(\\.[0-9]{1,2})?$",
+											"required": true,
+											"rows": 5
+										},
+										"validation": {
+											"messages": {
+												"pattern": "Amount exceeds limit"
+											}
+										}
+									},
+									{
+										"type": "custom-input",
+										"key": "igst",
+										"className": "flex-1",
+										"templateOptions": {
+											"label": "IGST + Customs Duty (INR)",
+											"required": true,
+											"pattern": "^[0-9]{1,9}(\\.[0-9]{1,2})?$",
+											"rows": 5
+										},
+										"validation": {
+											"messages": {
+												"pattern": "Amount exceeds limit"
+											}
+										}
+									},
+									{
+										"type": "custom-input",
+										"key": "marine_insurance",
+										"className": "flex-1",
+										"templateOptions": {
+											"label": "Marine Insurance (INR)",
+											"required": true,
+											"pattern": "^[0-9]{1,9}(\\.[0-9]{1,2})?$",
+											"rows": 5
+										},
+										"validation": {
+											"messages": {
+												"pattern": "Amount exceeds limit"
+											}
+										}
+									},
+									{
+										"type": "custom-input",
+										"key": "loading_charges",
+										"className": "flex-1",
+										"templateOptions": {
+											"label": "Loading Charges (INR)",
+											"required": true,
+											"pattern": "^[0-9]{1,9}(\\.[0-9]{1,2})?$"
+										},
+										"validation": {
+											"messages": {
+												"pattern": "Amount exceeds limit"
+											}
+										}
+									},
+									{
+										"type": "custom-input",
+										"key": "unloading_charges",
+										"className": "flex-1",
+										"templateOptions": {
+											"label": "Unloading Charges (INR)",
+											"required": true,
+											"pattern": "^[0-9]{1,9}(\\.[0-9]{1,2})?$"
+										},
+										"validation": {
+											"messages": {
+												"pattern": "Amount exceeds limit"
+											}
+										}
+									}
+								]
+							},
+							{
+								"fieldGroupClassName": "d-grid d-g-2",
+								"fieldGroup": []
+							},
+							{
+								"fieldGroupClassName": "d-grid d-g-3",
+								"fieldGroup": [
+									{
+										"type": "image-input",
+										"key": "freight_charges_file-uploads",
+										"className": "flex-1",
+										"props": {
+											"isWarehouse": true,
+											"hide": true,
+											"label": "Warehouse",
+											"optionsDataSource": {
+												"multifilter": "company"
+											},
+											"updateModel": true,
+											"labelProp": "name",
+											"valueProp": "_id"
+										}
+									}
+								]
+							}
+						]
+					},
+					{
+						"className": "row",
+						"props": {
+							"label": "Quality Report",
+							"eachStepSave": true,
+							"AddDefaultValues": [
+								{
+									"fields": "status_type",
+									"value": "Cargo Arrived"
+								}
+							]
+						},
+						"fieldGroup": [
+							{
+								"fieldGroupClassName": "d-grid d-g-2",
+								"fieldGroup": [
+									{
+										"type": "text-input",
+										"key": "quality_reports.agency",
+										"className": "flex-2",
+										"templateOptions": {
+											"label": "Agency",
+											"required": true,
+											"pattern": "^[A-Za-z0-9 .,&-]{1,50}$",
+											"rows": 5
+										},
+										"validation": {
+											"messages": {
+												"pattern": "Invalid data"
+											}
+										}
+									},
+									{
+										"type": "date-input",
+										"key": "quality_reports.report_date",
+										"className": "flex-2",
+										"parentKey": "dop",
+										"props": {
+											"required": true,
+											"attributes": {
+												"hide": "future_date"
+											},
+											"label": "Report Date",
+											"disabled": false
+										}
+									}
+								]
+							},
+							{
+								"fieldGroupClassName": "d-grid d-g-2",
+								"fieldGroup": [
+									{
+										"type": "custom-input",
+										"key": "quality_reports.out_turn",
+										"className": "flex-2",
+										"props": {
+											"required": true,
+											"label": "Out Turn",
+											"step": "0.01",
+											"min": 0,
+											"pattern": "^(2[5-9]|[3-4][0-9]|5[0-5])(\\.[0-9]{1,2})?$"
+										},
+										"validation": {
+											"messages": {
+												"pattern": "Number with up to 25 to 55."
+											}
+										}
+									},
+									{
+										"type": "custom-input",
+										"key": "quality_reports.nut_count",
+										"className": "flex-2",
+										"props": {
+											"required": true,
+											"label": "Nut Count",
+											"disabled": false,
+											"pattern": "^(1[4-9][0-9]|2[0-4][0-9]|250)$",
+											"step": 1,
+											"title": "Number must be between 140 and 250."
+										},
+										"validation": {
+											"messages": {
+												"pattern": "Number with up to 140 to 250."
+											}
+										}
+									}
+								]
+							},
+							{
+								"fieldGroupClassName": "d-grid d-g-2",
+								"fieldGroup": [
+									{
+										"type": "custom-input",
+										"key": "quality_reports.moisture",
+										"className": "flex-2",
+										"templateOptions": {
+											"label": "Moisture (%)"
+										},
+										"props": {
+											"required": true,
+											"pattern": "^(100(\\.0{1,2})?|\\d{1,2}(\\.\\d{1,2})?)$",
+											"label": "Moisture (%)",
+											"isExcludeScientificNotation": true
+										},
+										"validation": {
+											"messages": {
+												"pattern": "Max 100% allowed."
+											}
+										}
+									},
+									{
+										"type": "custom-input",
+										"key": "quality_reports.net_weight",
+										"className": "flex-2",
+										"props": {
+											"required": true,
+											"label": "Final Net Weight (kg)",
+											"disabled": false,
+											"step": "0.01",
+											"isExcludeScientificNotation": true,
+											"min": 0,
+											"pattern": "^[0-9]{1,3}(\\.[0-9]{1,4})?$"
+										},
+										"validation": {
+											"messages": {
+												"required": "This field is required"
+											}
+										}
+									}
+								]
+							},
+							{
+								"fieldGroupClassName": "d-grid d-g-3",
+								"fieldGroup": [
+									{
+										"type": "image-input",
+										"key": "quality_reports_file-uploads",
+										"className": "flex-1",
+										"props": {
+											"isWarehouse": true,
+											"hide": true,
+											"label": "Warehouse",
+											"optionsDataSource": {
+												"multifilter": "company"
+											},
+											"updateModel": true,
+											"labelProp": "name",
+											"valueProp": "_id"
+										}
+									}
+								]
+							}
+						]
+					},
+					{
+						"className": "row",
+						"props": {
+							"label": "Stock Movements",
+							"eachStepSave": true,
+							"AddDefaultValues": [
+								{
+									"fields": "status_type",
+									"value": "Cargo Arrived"
+								}
+							]
+						},
+						"fieldGroup": [
+							{
+								"fieldGroupClassName": "d-grid d-g-3",
+								"fieldGroup": [
+									{
+										"type": "date-input",
+										"key": "boarding_date",
+										"className": "flex-1",
+										"props": {
+											"required": true,
+											"label": "Boarding date",
+											"attributes": {
+												"refId": "dop",
+												"hide": "past_future_date"
+											},
+											"disabled": false
+										}
+									},
+									{
+										"type": "date-input",
+										"key": "domestic_loading_date",
+										"className": "flex-1",
+										"props": {
+											"required": true,
+											"label": "Domestic Loading Date",
+											"disabled": false,
+											"currentToParentDate": true,
+											"attributes": {
+												"refId": "boarding_date",
+												"hide": "past_future_date"
+											}
+										}
+									}
+								]
+							},
+							{
+								"fieldGroupClassName": "d-grid",
+								"fieldGroup": [
+									{
+										"key": "stock_movement",
+										"type": "repeat",
+										"props": {
+											"key": "stock_movement",
+											"steplabel": "Warehouse Transfer",
+											"placeholder": "",
+											"parentField": "quality_reports.net_weight",
+											"chieldArray": "stock_movement",
+											"chieldFiled": "weight",
+											"disabled": false,
+											"addId": true
+										},
+										"fieldArray": {
+											"fieldGroupClassName": "row",
+											"fieldGroup": [
+												{
+													"key": "_id"
+												},
+												{
+													"fieldGroupClassName": "d-grid d-g-3",
+													"fieldGroup": [
+														{
+															"type": "date-input",
+															"key": "date",
+															"className": "flex-1",
+															"props": {
+																"parentKey": "dop",
+																"required": true,
+																"attributes": {
+																	"hide": "custom_date",
+																	"parentKey": "parent.parent.parent.parent.parent.parent.parent.model.dop"
+																},
+																"label": "Date",
+																"disabled": false
+															},
+															"validation": {
+																"messages": {
+																	"required": "This field is required"
+																}
+															}
+														},
+														{
+															"type": "custom-input",
+															"key": "weight",
+															"className": "flex-1",
+															"props": {
+																"label": "Weight (kg)",
+																"required": true,
+																"thisIsWeight": true,
+																"pattern": "^[0-9]{1,3}(\\.[0-9]{1,4})?$",
+																"checkParentField": "quality_reports.net_weight"
+															},
+															"validation": {
+																"messages": {
+																	"pattern": "Value must be a number with up to two decimal places.",
+																	"required": "Weight is required."
+																}
+															},
+															"defaultValue": ""
+														},
+														{
+															"type": "select-input",
+															"key": "warehouse",
+															"className": "flex-1",
+															"props": {
+																"isWarehouse": true,
+																"required": true,
+																"label": "Warehouse",
+																"optionsDataSource": {
+																	"multifilter": "company"
+																},
+																"updateModel": true,
+																"labelProp": "name",
+																"valueProp": "_id"
+															}
+														}
+													]
+												}
+											]
+										}
+									}
+								]
+							},
+							{
+								"fieldGroupClassName": "d-grid d-g-3",
+								"fieldGroup": [
+									{
+										"type": "image-input",
+										"key": "stock_movements_file-uploads",
+										"className": "flex-1",
+										"props": {
+											"isWarehouse": true,
+											"hide": true,
+											"label": "Warehouse",
+											"optionsDataSource": {
+												"multifilter": "company"
+											},
+											"updateModel": true,
+											"labelProp": "name",
+											"valueProp": "_id"
+										}
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		],
+		"defaultValues": [
+			{
+				"colName": "_id",
+				"type": "prefix",
+				"adddate": "YYYY",
+				"addOrg": true,
+				"static": "PURCH-INT-"
+			},
+			{
+				"colName": "purchasetype",
+				"value": "International",
+				"type": "string"
+			},
+			{
+				"type": "exp",
+				"source": "session",
+				"value": "selectedOrgId",
+				"colName": "org_id"
+			},
+			{
+				"colName": "status",
+				"value": "Active",
+				"type": "string"
+			}
+		]
+	}
+}

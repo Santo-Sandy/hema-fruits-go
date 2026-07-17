@@ -1,0 +1,13 @@
+[Unit]
+Description=Admin REST API Service (go)
+
+[Service]
+Type=simple
+Restart=on-failure
+Restart=always
+RestartSec=5s
+WorkingDirectory=/opt/cerp/cmd/admin-service/
+ExecStart=/opt/cerp/cmd/admin-service/admin-service
+LogsDirectory=/opt/cerp/logs/
+[Install]
+WantedBy=multi-user.target  

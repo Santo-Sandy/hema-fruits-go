@@ -1,0 +1,2288 @@
+[
+  {
+    "code": 2140,
+    "message": "Error while validating invoice",
+    "reason": "The request JSON payload is not as per the currently used eInvoice request schema",
+    "resolution": "Refer to the API developer portal for correct schema."
+  },
+  {
+    "code": 2141,
+    "message": "Error while cancelling invoice",
+    "reason": "Unexpected error occurred while cancelling the eInvoice",
+    "resolution": "Check request payload and header. Contact helpdesk if unresolved."
+  },
+  {
+    "code": 2142,
+    "message": "Incomplete request parameters",
+    "reason": "Mandatory parameters missing in request",
+    "resolution": "Ensure all required parameters are passed."
+  },
+  {
+    "code": 2143,
+    "message": "Invoice does not belong to the user GSTIN",
+    "reason": "IRN does not belong to logged-in GSTIN",
+    "resolution": "Ensure GSTIN matches the IRN owner."
+  },
+  {
+    "code": 2146,
+    "message": "Unable to create IRN",
+    "reason": "Unexpected system issue",
+    "resolution": "Retry later. Contact helpdesk if persists."
+  },
+  {
+    "code": 2147,
+    "message": "Unable to sign invoice",
+    "reason": "Unexpected signing error",
+    "resolution": "Retry later. Contact helpdesk if persists."
+  },
+  {
+    "code": 2148,
+    "message": "Requested IRN data is not available",
+    "reason": "IRN not found in system",
+    "resolution": "Verify IRN and allowed time duration."
+  },
+  {
+    "code": 2150,
+    "message": "Duplicate IRN",
+    "reason": "IRN already generated for document",
+    "resolution": "Avoid duplicate submission. Store IRN after first response."
+  },
+  {
+    "code": 2154,
+    "message": "IRN details are not found",
+    "reason": "IRN already registered",
+    "resolution": "Check if IRN exists before retrying."
+  },
+  {
+    "code": 2155,
+    "message": "Supplier GSTIN is required",
+    "reason": "Supplier GSTIN missing",
+    "resolution": "Supplier GSTIN is mandatory."
+  },
+  {
+    "code": 2156,
+    "message": "Invalid format - from Date",
+    "reason": "Wrong date format",
+    "resolution": "Use DD/MM/YYYY format."
+  },
+  {
+    "code": 2157,
+    "message": "Invalid format - to Date",
+    "reason": "Wrong date format",
+    "resolution": "Use DD/MM/YYYY format."
+  },
+  {
+    "code": 2159,
+    "message": "Invalid value for reverse charge applicable field",
+    "reason": "Invalid reverse charge value",
+    "resolution": "Refer to schema for correct values."
+  },
+  {
+    "code": 2162,
+    "message": "Reverse Charge not applicable",
+    "reason": "Reverse charge set for invalid transaction type",
+    "resolution": "Check reverse charge applicability."
+  },
+  {
+    "code": 2163,
+    "message": "Document date cannot be future date",
+    "reason": "Future date passed",
+    "resolution": "Use current or past date."
+  },
+  {
+    "code": 2169,
+    "message": "IRN request not from supplier or eCommerce GSTIN",
+    "reason": "Header GSTIN mismatch",
+    "resolution": "Ensure header GSTIN matches supplier or eCommerce GSTIN."
+  },
+  {
+    "code": 2172,
+    "message": "IGST not applicable for intra-state transaction",
+    "reason": "IGST passed for intra-state",
+    "resolution": "Use CGST + SGST."
+  },
+  {
+    "code": 2173,
+    "message": "Exceeded item limit",
+    "reason": "Too many line items",
+    "resolution": "Reduce item count or use bulk API."
+  },
+  {
+    "code": 2174,
+    "message": "CGST/SGST not applicable for inter-state transaction",
+    "reason": "Wrong tax type used",
+    "resolution": "Use IGST for inter-state."
+  },
+  {
+    "code": 2176,
+    "message": "Invalid HSN code",
+    "reason": "Incorrect HSN",
+    "resolution": "Verify HSN from portal."
+  },
+  {
+    "code": 2177,
+    "message": "Invalid Unit Quantity Code",
+    "reason": "Invalid UQC",
+    "resolution": "Use valid master UQC."
+  },
+  {
+    "code": 2182,
+    "message": "Taxable value mismatch",
+    "reason": "Line item taxable sum mismatch",
+    "resolution": "Ensure sum matches invoice taxable value."
+  },
+  {
+    "code": 2183,
+    "message": "SGST value mismatch",
+    "reason": "SGST line sum mismatch",
+    "resolution": "Correct SGST totals."
+  },
+  {
+    "code": 2184,
+    "message": "CGST value mismatch",
+    "reason": "CGST line sum mismatch",
+    "resolution": "Correct CGST totals."
+  },
+  {
+    "code": 2185,
+    "message": "IGST value mismatch",
+    "reason": "IGST line sum mismatch",
+    "resolution": "Correct IGST totals."
+  },
+  {
+    "code": 2186,
+    "message": "Cess value mismatch",
+    "reason": "Cess line sum mismatch",
+    "resolution": "Correct Cess totals."
+  },
+  {
+    "code": 2187,
+    "message": "State Cess value mismatch",
+    "reason": "State Cess line sum mismatch",
+    "resolution": "Correct State Cess totals."
+  },
+  {
+    "code": 2189,
+    "message": "Total Invoice Value mismatch",
+    "reason": "Invoice total incorrect",
+    "resolution": "Recalculate invoice total."
+  },
+  {
+    "code": 2192,
+    "message": "TotAmt must equal Qty * Unit Price",
+    "reason": "Incorrect item total",
+    "resolution": "Correct TotAmt calculation."
+  },
+  {
+    "code": 2193,
+    "message": "Assessable value mismatch",
+    "reason": "AssAmt != TotAmt - Discount",
+    "resolution": "Correct assessable value."
+  },
+  {
+    "code": 2194,
+    "message": "Total item value mismatch",
+    "reason": "Item total not matching tax sum",
+    "resolution": "Correct item total calculation."
+  },
+  {
+    "code": 2195,
+    "message": "e-Commerce GSTIN not registered as TCS",
+    "reason": "Invalid GSTIN type",
+    "resolution": "Verify GSTIN type."
+  },
+  {
+    "code": 2200,
+    "message": "Invalid state code for dispatch/ship",
+    "reason": "Wrong state code",
+    "resolution": "Use valid state code."
+  },
+  {
+    "code": 2201,
+    "message": "Invalid Port Code",
+    "reason": "Incorrect port code",
+    "resolution": "Use valid port code."
+  },
+  {
+    "code": 2202,
+    "message": "Invalid Country Code",
+    "reason": "Incorrect country code",
+    "resolution": "Use valid country code."
+  },
+  {
+    "code": 2203,
+    "message": "Invalid Foreign Currency",
+    "reason": "Incorrect currency code",
+    "resolution": "Use valid currency code."
+  },
+  {
+    "code": 2211,
+    "message": "Supplier and recipient GSTIN cannot be same",
+    "reason": "Same GSTIN used",
+    "resolution": "Use different GSTINs."
+  },
+  {
+    "code": 2212,
+    "message": "Recipient GSTIN cannot be URP",
+    "reason": "URP used for B2B",
+    "resolution": "Pass actual GSTIN."
+  },
+  {
+    "code": 2213,
+    "message": "Supplier GSTIN cannot be URP",
+    "reason": "URP set as supplier",
+    "resolution": "Provide valid supplier GSTIN."
+  },
+  {
+    "code": 2218,
+    "message": "Invalid document date range",
+    "reason": "Date not within allowed range",
+    "resolution": "Use valid date."
+  },
+  {
+    "code": 2219,
+    "message": "From date cannot be future",
+    "reason": "From date after today",
+    "resolution": "Correct date range."
+  },
+  {
+    "code": 2225,
+    "message": "Incorrect document date format",
+    "reason": "Wrong format",
+    "resolution": "Use DD/MM/YYYY."
+  },
+  {
+    "code": 2226,
+    "message": "Not authorised to get IRN data",
+    "reason": "Unauthorized access",
+    "resolution": "Check user authorization."
+  },
+  {
+    "code": 2227,
+    "message": "SGST and CGST must be equal",
+    "reason": "Mismatch in tax split",
+    "resolution": "Correct SGST/CGST values."
+  },
+  {
+    "code": 2228,
+    "message": "Item list cannot be empty",
+    "reason": "No items provided",
+    "resolution": "Add at least one item."
+  },
+  {
+    "code": 2230,
+    "message": "IRN cannot be cancelled due to active E-way Bill",
+    "reason": "E-way Bill exists",
+    "resolution": "Cancel E-way Bill first."
+  },
+  {
+    "code": 2231,
+    "message": "SEZ supplier cannot generate e-Invoice",
+    "reason": "SEZ GSTIN restriction",
+    "resolution": "eInvoice not applicable for SEZ supplier."
+  },
+  {
+    "code": 2232,
+    "message": "Incorrect POS for transaction",
+    "reason": "Invalid POS code",
+    "resolution": "Use valid POS code."
+  },
+  {
+    "code": 2233,
+    "message": "Duplicate serial numbers in items",
+    "reason": "Duplicate Sl No",
+    "resolution": "Ensure unique serial numbers."
+  },
+  {
+    "code": 2234,
+    "message": "SGST/CGST amount mismatch with tax rate",
+    "reason": "Incorrect tax calculation",
+    "resolution": "Correct SGST/CGST calculation."
+  },
+  {
+    "code": 2235,
+    "message": "IGST amount mismatch with tax rate",
+    "reason": "Incorrect IGST calculation",
+    "resolution": "Correct IGST calculation."
+  },
+  {
+    "code": 2238,
+    "message": "Quantity not provided",
+    "reason": "Missing Qty",
+    "resolution": "Provide item quantity."
+  },
+  {
+    "code": 2239,
+    "message": "Unit Quantity Code missing",
+    "reason": "Missing UQC",
+    "resolution": "Provide valid UQC."
+  },
+  {
+    "code": 2240,
+    "message": "Invalid GST rate",
+    "reason": "Wrong GST rate",
+    "resolution": "Use standard GST rates."
+  },
+  {
+    "code": 2242,
+    "message": "Recipient POS incorrect",
+    "reason": "Invalid POS",
+    "resolution": "Use correct POS."
+  },
+  {
+    "code": 2243,
+    "message": "Invalid POS code",
+    "reason": "Wrong state code",
+    "resolution": "Provide valid state code."
+  },
+  {
+    "code": 2244,
+    "message": "Recipient PIN missing",
+    "reason": "Missing PIN",
+    "resolution": "Provide valid PIN."
+  },
+  {
+    "code": 2246,
+    "message": "Recipient cannot be SEZ",
+    "reason": "Invalid SEZ usage",
+    "resolution": "Correct recipient type."
+  },
+  {
+    "code": 2247,
+    "message": "Recipient must be SEZ",
+    "reason": "Wrong GSTIN type",
+    "resolution": "Use SEZ GSTIN."
+  },
+  {
+    "code": 2248,
+    "message": "Recipient must be URP for export",
+    "reason": "Wrong GSTIN for export",
+    "resolution": "Set GSTIN to URP."
+  },
+  {
+    "code": 2255,
+    "message": "Empty payload",
+    "reason": "No request body",
+    "resolution": "Provide valid JSON payload."
+  },
+  {
+    "code": 2256,
+    "message": "Invalid Signature",
+    "reason": "Signature validation failed",
+    "resolution": "Use correct public key."
+  },
+  {
+    "code": 2257,
+    "message": "Invalid credentials",
+    "reason": "Authentication failed",
+    "resolution": "Verify credentials."
+  },
+  {
+    "code": 2270,
+    "message": "Cancellation time limit crossed",
+    "reason": "Time exceeded",
+    "resolution": "IRN cannot be cancelled."
+  },
+  {
+    "code": 2278,
+    "message": "Duplicate IRN after cancellation",
+    "reason": "IRN already cancelled",
+    "resolution": "Cannot regenerate IRN."
+  },
+  {
+    "code": 2279,
+    "message": "Invalid schema version",
+    "reason": "Wrong schema version",
+    "resolution": "Use correct schema version."
+  },
+  {
+    "code": 2280,
+    "message": "Invalid document type",
+    "reason": "Incorrect document type",
+    "resolution": "Use valid document type."
+  },
+  {
+    "code": 2281,
+    "message": "Invalid document number",
+    "reason": "Incorrect document number",
+    "resolution": "Provide valid document number."
+  },
+  {
+    "code": 2282,
+    "message": "Invalid document date format",
+    "reason": "Wrong date format",
+    "resolution": "Use DD/MM/YYYY."
+  },
+  {
+    "code": 2284,
+    "message": "IRN cannot be generated prior to 1 Oct 2020",
+    "reason": "Old document date",
+    "resolution": "Use valid date range."
+  },
+  {
+    "code": 2286,
+    "message": "Cannot generate E-way bill for cancelled IRN",
+    "reason": "IRN cancelled",
+    "resolution": "Use active IRN."
+  },
+  {
+    "code": 2287,
+    "message": "E-way bill already exists",
+    "reason": "Duplicate E-way bill",
+    "resolution": "Do not regenerate."
+  },
+  {
+    "code": 2288,
+    "message": "Invalid Recipient GSTIN",
+    "reason": "Incorrect GSTIN",
+    "resolution": "Verify GSTIN."
+  },
+  {
+    "code": 2290,
+    "message": "Invalid Total Invoice Value",
+    "reason": "Incorrect total",
+    "resolution": "Correct invoice total."
+  },
+  {
+    "code": 2291,
+    "message": "Invalid Supplier GSTIN",
+    "reason": "Incorrect GSTIN",
+    "resolution": "Verify supplier GSTIN."
+  },
+  {
+    "code": 2292,
+    "message": "Invalid document date",
+    "reason": "Incorrect date",
+    "resolution": "Provide valid date."
+  },
+  {
+    "code": 2293,
+    "message": "Invalid date format",
+    "reason": "Wrong format",
+    "resolution": "Use DD/MM/YYYY."
+  },
+  {
+    "code": 2296,
+    "message": "Data not found",
+    "reason": "Record not available",
+    "resolution": "Verify data."
+  },
+  {
+    "code": 2302,
+    "message": "IRN status not active",
+    "reason": "Inactive IRN",
+    "resolution": "Ensure IRN is active."
+  },
+  {
+    "code": 2304,
+    "message": "Not authorised to perform operation",
+    "reason": "Unauthorized action",
+    "resolution": "Check user permissions."
+  },
+  {
+    "code": 2307,
+    "message": "Future date not accepted",
+    "reason": "Future date used",
+    "resolution": "Use valid date."
+  },
+  {
+    "code": 3026,
+    "message": "E-Invoice option not enabled",
+    "reason": "GSTIN not enabled",
+    "resolution": "Enable eInvoice for GSTIN."
+  },
+  {
+    "code": 3028,
+    "message": "Invalid GSTIN",
+    "reason": "GSTIN does not exist",
+    "resolution": "Verify GSTIN or sync from portal."
+  },
+  {
+    "code": 3029,
+    "message": "GSTIN inactive or cancelled",
+    "reason": "GSTIN status invalid",
+    "resolution": "Use active GSTIN."
+  },
+  {
+    "code": 3076,
+    "message": "GSTIN inactive",
+    "reason": "Inactive GSTIN",
+    "resolution": "Verify GSTIN status."
+  },
+  {
+    "code": 4001,
+    "message": "Error creating E-way Bill",
+    "reason": "System error",
+    "resolution": "Retry or contact helpdesk."
+  },
+  {
+    "code": 5001,
+    "message": "Application error",
+    "reason": "Processing or schema error",
+    "resolution": "Validate schema and retry."
+  },
+  {
+    "code": 5002,
+    "message": "Application processing error",
+    "reason": "Unexpected issue",
+    "resolution": "Retry or raise support ticket."
+  },
+  {
+    "code": 9999,
+    "message": "Invoice is not active",
+    "reason": "Inactive invoice",
+    "resolution": "Ensure invoice is active before operation."
+  },
+  {
+    "code": 100,
+    "message": "Invalid Json",
+    "reason": "Invalid Json",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 101,
+    "message": "Invalid Username",
+    "reason": "Invalid Username",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 102,
+    "message": "Invalid Password",
+    "reason": "Invalid Password",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 103,
+    "message": "Invalid Client -Id",
+    "reason": "Invalid Client -Id",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 104,
+    "message": "Invalid Client Secret",
+    "reason": "Invalid Client Secret",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 105,
+    "message": "Invalid Token",
+    "reason": "Invalid Token",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 106,
+    "message": "Token Expired",
+    "reason": "Token Expired",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 107,
+    "message": "Authentication failed. Pls. inform the helpdesk",
+    "reason": "Authentication failed. Pls. inform the helpdesk",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 108,
+    "message": "Invalid login credentials.",
+    "reason": "Invalid login credentials.",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 109,
+    "message": "Decryption of data failed",
+    "reason": "Decryption of data failed",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 110,
+    "message": "Invalid Client-ID/Client-Secret",
+    "reason": "Invalid Client-ID/Client-Secret",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 111,
+    "message": "GSTIN is not registerd to this GSP",
+    "reason": "GSTIN is not registerd to this GSP",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 112,
+    "message": "Inactive Client",
+    "reason": "Inactive Client",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 113,
+    "message": "Inactive User",
+    "reason": "Inactive User",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 114,
+    "message": "Technical Error, Pl. contact the helpdesk.",
+    "reason": "Technical Error, Pl. contact the helpdesk.",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 115,
+    "message": "Request payload data cannot be empty",
+    "reason": "Request payload data cannot be empty",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 116,
+    "message": "Auth token is not valid for this client",
+    "reason": "Auth token is not valid for this client",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 117,
+    "message": "This option is not enabled in Eway Bill 2",
+    "reason": "This option is not enabled in Eway Bill 2",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 118,
+    "message": "Try after 5 minutes",
+    "reason": "Try after 5 minutes",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 201,
+    "message": "Invalid Supply Type",
+    "reason": "Invalid Supply Type",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 202,
+    "message": "Invalid Sub-supply Type",
+    "reason": "Invalid Sub-supply Type",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 203,
+    "message": "Sub-transaction type does not belongs to transaction type",
+    "reason": "Sub-transaction type does not belongs to transaction type",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 204,
+    "message": "Invalid Document type",
+    "reason": "Invalid Document type",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 205,
+    "message": "Document type does not match with transaction & Sub trans type",
+    "reason": "Document type does not match with transaction & Sub trans type",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 206,
+    "message": "Invaild Invoice Number",
+    "reason": "Invaild Invoice Number",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 207,
+    "message": "Invalid Invoice Date",
+    "reason": "Invalid Invoice Date",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 208,
+    "message": "Invalid Supplier GSTIN / Enrolled URP",
+    "reason": "Invalid Supplier GSTIN / Enrolled URP",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 209,
+    "message": "Blank Supplier Address",
+    "reason": "Blank Supplier Address",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 210,
+    "message": "Invalid or Blank Supplier PIN Code",
+    "reason": "Invalid or Blank Supplier PIN Code",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 211,
+    "message": "Invalid or Blank Supplier state Code",
+    "reason": "Invalid or Blank Supplier state Code",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 212,
+    "message": "Invalid Consignee GSTIN / Enrolled URP",
+    "reason": "Invalid Consignee GSTIN / Enrolled URP",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 213,
+    "message": "Invalid Consignee Address",
+    "reason": "Invalid Consignee Address",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 214,
+    "message": "Invalid Consignee PIN Code",
+    "reason": "Invalid Consignee PIN Code",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 215,
+    "message": "Invalid Consignee State Code",
+    "reason": "Invalid Consignee State Code",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 216,
+    "message": "Invalid HSN Code",
+    "reason": "Invalid HSN Code",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 217,
+    "message": "Invalid UQC Code",
+    "reason": "Invalid UQC Code",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 218,
+    "message": "Invalid Tax Rate for Intra State Transaction",
+    "reason": "Invalid Tax Rate for Intra State Transaction",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 219,
+    "message": "Invalid Tax Rate for Inter State Transaction",
+    "reason": "Invalid Tax Rate for Inter State Transaction",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 220,
+    "message": "Invalid Trans mode",
+    "reason": "Invalid Trans mode",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 221,
+    "message": "Invalid Approximate Distance",
+    "reason": "Invalid Approximate Distance",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 222,
+    "message": "Invalid Transporter Id",
+    "reason": "Invalid Transporter Id",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 223,
+    "message": "Invalid Transaction Document Number",
+    "reason": "Invalid Transaction Document Number",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 224,
+    "message": "Invalid Transaction Date",
+    "reason": "Invalid Transaction Date",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 225,
+    "message": "Invalid Vehicle Number Format",
+    "reason": "Invalid Vehicle Number Format",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 226,
+    "message": "Both Transaction and Vehicle Number Blank",
+    "reason": "Both Transaction and Vehicle Number Blank",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 227,
+    "message": "User Gstin cannot be blank",
+    "reason": "User Gstin cannot be blank",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 228,
+    "message": "User id cannot be blank",
+    "reason": "User id cannot be blank",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 229,
+    "message": "Supplier name is required",
+    "reason": "Supplier name is required",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 230,
+    "message": "Supplier place is required",
+    "reason": "Supplier place is required",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 231,
+    "message": "Consignee name is required",
+    "reason": "Consignee name is required",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 232,
+    "message": "Consignee place is required",
+    "reason": "Consignee place is required",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 233,
+    "message": "Eway bill does not contains any items",
+    "reason": "Eway bill does not contains any items",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 234,
+    "message": "Total amount/Taxable amout is mandatory",
+    "reason": "Total amount/Taxable amout is mandatory",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 235,
+    "message": "Tax rates for Intra state transaction is blank",
+    "reason": "Tax rates for Intra state transaction is blank",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 236,
+    "message": "Tax rates for Inter state transaction is blank",
+    "reason": "Tax rates for Inter state transaction is blank",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 237,
+    "message": "Invalid client -Id/client-secret",
+    "reason": "Invalid client -Id/client-secret",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 238,
+    "message": "Invalid auth token",
+    "reason": "Invalid auth token",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 239,
+    "message": "Invalid action",
+    "reason": "Invalid action",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 240,
+    "message": "Could not generate eway bill, pls contact helpdesk",
+    "reason": "Could not generate eway bill, pls contact helpdesk",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 242,
+    "message": "Invalid State Code",
+    "reason": "Invalid State Code",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 250,
+    "message": "Invalid Vehicle Release Date Format",
+    "reason": "Invalid Vehicle Release Date Format",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 251,
+    "message": "CGST nad SGST TaxRate should be same",
+    "reason": "CGST nad SGST TaxRate should be same",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 252,
+    "message": "Invalid CGST Tax Rate",
+    "reason": "Invalid CGST Tax Rate",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 253,
+    "message": "Invalid SGST Tax Rate",
+    "reason": "Invalid SGST Tax Rate",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 254,
+    "message": "Invalid IGST Tax Rate",
+    "reason": "Invalid IGST Tax Rate",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 255,
+    "message": "Invalid CESS Rate",
+    "reason": "Invalid CESS Rate",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 278,
+    "message": "User Gstin does not match with Transporter Id",
+    "reason": "User Gstin does not match with Transporter Id",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 280,
+    "message": "Status is not ACTIVE",
+    "reason": "Status is not ACTIVE",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 281,
+    "message": "Eway Bill is already expired hence update transporter is not allowed.",
+    "reason": "Eway Bill is already expired hence update transporter is not allowed.",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 282,
+    "message": "At least 4 digit HSN code is mandatory for taxpayers with turnover less than 5Cr.",
+    "reason": "At least 4 digit HSN code is mandatory for taxpayers with turnover less than 5Cr.",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 283,
+    "message": "At least 6 digit HSN code is mandatory for taxpayers with turnover 5Cr. and above",
+    "reason": "At least 6 digit HSN code is mandatory for taxpayers with turnover 5Cr. and above",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 301,
+    "message": "Invalid eway bill number",
+    "reason": "Invalid eway bill number",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 302,
+    "message": "Invalid transporter mode",
+    "reason": "Invalid transporter mode",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 303,
+    "message": "Vehicle number is required",
+    "reason": "Vehicle number is required",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 304,
+    "message": "Invalid vehicle format",
+    "reason": "Invalid vehicle format",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 305,
+    "message": "Place from is required",
+    "reason": "Place from is required",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 306,
+    "message": "Invalid from state",
+    "reason": "Invalid from state",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 307,
+    "message": "Invalid reason",
+    "reason": "Invalid reason",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 308,
+    "message": "Invalid remarks",
+    "reason": "Invalid remarks",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 309,
+    "message": "Could not update vehicle details, pl contact helpdesk",
+    "reason": "Could not update vehicle details, pl contact helpdesk",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 311,
+    "message": "Validity period lapsed, you cannot update vehicle details",
+    "reason": "Validity period lapsed, you cannot update vehicle details",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 312,
+    "message": "This eway bill is either not generated by you or cancelled",
+    "reason": "This eway bill is either not generated by you or cancelled",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 315,
+    "message": "Validity period lapsed, you cannot cancel this eway bill",
+    "reason": "Validity period lapsed, you cannot cancel this eway bill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 316,
+    "message": "Eway bill is already verified, you cannot cancel it",
+    "reason": "Eway bill is already verified, you cannot cancel it",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 317,
+    "message": "Could not cancel eway bill, please contact helpdesk",
+    "reason": "Could not cancel eway bill, please contact helpdesk",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 320,
+    "message": "Invalid state to",
+    "reason": "Invalid state to",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 321,
+    "message": "Invalid place to",
+    "reason": "Invalid place to",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 322,
+    "message": "Could not generate consolidated eway bill",
+    "reason": "Could not generate consolidated eway bill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 325,
+    "message": "Could not retrieve data",
+    "reason": "Could not retrieve data",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 326,
+    "message": "Could not retrieve GSTIN details for the given GSTIN number",
+    "reason": "Could not retrieve GSTIN details for the given GSTIN number",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 327,
+    "message": "Could not retrieve data from hsn",
+    "reason": "Could not retrieve data from hsn",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 328,
+    "message": "Could not retrieve transporter details from gstin",
+    "reason": "Could not retrieve transporter details from gstin",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 329,
+    "message": "Could not retrieve States List",
+    "reason": "Could not retrieve States List",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 330,
+    "message": "Could not retrieve UQC list",
+    "reason": "Could not retrieve UQC list",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 331,
+    "message": "Could not retrieve Error code",
+    "reason": "Could not retrieve Error code",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 334,
+    "message": "Could not retrieve user details by userid",
+    "reason": "Could not retrieve user details by userid",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 336,
+    "message": "Could not retrieve transporter data by gstin",
+    "reason": "Could not retrieve transporter data by gstin",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 337,
+    "message": "Could not retrieve HSN details for the given HSN number",
+    "reason": "Could not retrieve HSN details for the given HSN number",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 338,
+    "message": "You cannot update transporter details, as the current tranporter is already entered Part B details of the eway bill",
+    "reason": "You cannot update transporter details, as the current tranporter is already entered Part B details of the eway bill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 339,
+    "message": "You are not assigned to update the tranporter details of this eway bill",
+    "reason": "You are not assigned to update the tranporter details of this eway bill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 341,
+    "message": "This e-way bill is generated by you and hence you cannot reject it",
+    "reason": "This e-way bill is generated by you and hence you cannot reject it",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 342,
+    "message": "You cannot reject this e-way bill as you are not the other party to do so",
+    "reason": "You cannot reject this e-way bill as you are not the other party to do so",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 343,
+    "message": "This e-way bill is cancelled",
+    "reason": "This e-way bill is cancelled",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 344,
+    "message": "Invalid eway bill number",
+    "reason": "Invalid eway bill number",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 345,
+    "message": "Validity period lapsed, you cannot reject the e-way bill",
+    "reason": "Validity period lapsed, you cannot reject the e-way bill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 346,
+    "message": "You can reject the e-way bill only within 72 hours from generated timel",
+    "reason": "You can reject the e-way bill only within 72 hours from generated timel",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 347,
+    "message": "Validation of eway bill number failed, while rejecting ewaybill",
+    "reason": "Validation of eway bill number failed, while rejecting ewaybill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 350,
+    "message": "Could not generate consolidated eway bill",
+    "reason": "Could not generate consolidated eway bill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 351,
+    "message": "Invalid state code",
+    "reason": "Invalid state code",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 352,
+    "message": "Invalid rfid date",
+    "reason": "Invalid rfid date",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 353,
+    "message": "Invalid location code",
+    "reason": "Invalid location code",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 354,
+    "message": "Invalid rfid number",
+    "reason": "Invalid rfid number",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 355,
+    "message": "Invalid Vehicle Number Format",
+    "reason": "Invalid Vehicle Number Format",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 356,
+    "message": "Invalid wt on bridge",
+    "reason": "Invalid wt on bridge",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 357,
+    "message": "Could not retrieve eway bill details, pl. contact helpdesk",
+    "reason": "Could not retrieve eway bill details, pl. contact helpdesk",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 358,
+    "message": "GSTIN passed in request header is not matching with the user gstin mentioned in payload JSON",
+    "reason": "GSTIN passed in request header is not matching with the user gstin mentioned in payload JSON",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 359,
+    "message": "User GSTIN should match to GSTIN(from) for outward transactions",
+    "reason": "User GSTIN should match to GSTIN(from) for outward transactions",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 360,
+    "message": "User GSTIN should match to GSTIN(to) for inward transactions",
+    "reason": "User GSTIN should match to GSTIN(to) for inward transactions",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 361,
+    "message": "Invalid Vehicle Type",
+    "reason": "Invalid Vehicle Type",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 362,
+    "message": "Transporter document date cannot be earlier than the invoice date",
+    "reason": "Transporter document date cannot be earlier than the invoice date",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 363,
+    "message": "E-way bill is not enabled for intra state movement for you state",
+    "reason": "E-way bill is not enabled for intra state movement for you state",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 364,
+    "message": "Error in verifying eway bill",
+    "reason": "Error in verifying eway bill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 365,
+    "message": "Error in verifying consolidated eway bill",
+    "reason": "Error in verifying consolidated eway bill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 366,
+    "message": "You will not get the ewaybills generated today, howerver you cann access the ewaybills of yester days",
+    "reason": "You will not get the ewaybills generated today, howerver you cann access the ewaybills of yester days",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 367,
+    "message": "Could not retrieve data for officer login",
+    "reason": "Could not retrieve data for officer login",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 368,
+    "message": "Could not update transporter",
+    "reason": "Could not update transporter",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 369,
+    "message": "GSTIN/Transin passed in request header should match with the transported Id mentioned in payload JSON",
+    "reason": "GSTIN/Transin passed in request header should match with the transported Id mentioned in payload JSON",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 370,
+    "message": "GSTIN/Transin passed in request header should not be the same as supplier(fromGSTIN) or recepient(toGSTIN)",
+    "reason": "GSTIN/Transin passed in request header should not be the same as supplier(fromGSTIN) or recepient(toGSTIN)",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 371,
+    "message": "Invalid or Blank Supplier Ship-to State Code",
+    "reason": "Invalid or Blank Supplier Ship-to State Code",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 372,
+    "message": "Invalid or Blank Consignee Ship-to State Code",
+    "reason": "Invalid or Blank Consignee Ship-to State Code",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 373,
+    "message": "The Supplier ship-from state code should be Other Country for Sub Supply Type- Export",
+    "reason": "The Supplier ship-from state code should be Other Country for Sub Supply Type- Export",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 374,
+    "message": "The Consignee pin code should be 999999 for Sub Supply Type- Export",
+    "reason": "The Consignee pin code should be 999999 for Sub Supply Type- Export",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 375,
+    "message": "The Supplier ship-to state code should be Other Country for Sub Supply Type- Import",
+    "reason": "The Supplier ship-to state code should be Other Country for Sub Supply Type- Import",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 376,
+    "message": "The Supplier pin code should be 999999 for Sub Supply Type- Import",
+    "reason": "The Supplier pin code should be 999999 for Sub Supply Type- Import",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 377,
+    "message": "Sub Supply Type is mentioned as Others, the description for that is mandatory",
+    "reason": "Sub Supply Type is mentioned as Others, the description for that is mandatory",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 378,
+    "message": "The supplier or conginee belong to SEZ, Inter state tax rates are applicable here",
+    "reason": "The supplier or conginee belong to SEZ, Inter state tax rates are applicable here",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 379,
+    "message": "Eway Bill can not be extended.. Already Cancelled",
+    "reason": "Eway Bill can not be extended.. Already Cancelled",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 380,
+    "message": "Eway Bill Can not be Extended. Not in Active State",
+    "reason": "Eway Bill Can not be Extended. Not in Active State",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 381,
+    "message": "There is No PART-B/Vehicle Entry.. So Please Update Vehicle Information..",
+    "reason": "There is No PART-B/Vehicle Entry.. So Please Update Vehicle Information..",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 382,
+    "message": "You Cannot Extend as EWB can be Extended only 8 hour before or after w.r.t Validity of EWB..!!",
+    "reason": "You Cannot Extend as EWB can be Extended only 8 hour before or after w.r.t Validity of EWB..!!",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 383,
+    "message": "Error While Extending..Please Contact Helpdesk.",
+    "reason": "Error While Extending..Please Contact Helpdesk.",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 384,
+    "message": "You are not current transporter or Generator of the ewayBill, with no transporter details.",
+    "reason": "You are not current transporter or Generator of the ewayBill, with no transporter details.",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 385,
+    "message": "For Rail/Ship/Air transDocNo and transDocDate is mandatory",
+    "reason": "For Rail/Ship/Air transDocNo and transDocDate is mandatory",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 386,
+    "message": "Reason Code, Remarks is mandatory.",
+    "reason": "Reason Code, Remarks is mandatory.",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 387,
+    "message": "No Record Found for Entered consolidated eWay bill.",
+    "reason": "No Record Found for Entered consolidated eWay bill.",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 388,
+    "message": "Exception in regenration of consolidated eWayBill!!Please Contact helpdesk",
+    "reason": "Exception in regenration of consolidated eWayBill!!Please Contact helpdesk",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 389,
+    "message": "Remaining Distance Required",
+    "reason": "Remaining Distance Required",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 390,
+    "message": "Remaining Distance Can not be greater than Actual Distance.",
+    "reason": "Remaining Distance Can not be greater than Actual Distance.",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 391,
+    "message": "No eway bill of specified tripsheet, neither  ACTIVE nor not Valid.",
+    "reason": "No eway bill of specified tripsheet, neither  ACTIVE nor not Valid.",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 392,
+    "message": "Tripsheet is already cancelled, Hence Regeration is not possible",
+    "reason": "Tripsheet is already cancelled, Hence Regeration is not possible",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 393,
+    "message": "Invalid GSTIN",
+    "reason": "Invalid GSTIN",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 394,
+    "message": "For other than Road Transport, TransDoc number is required",
+    "reason": "For other than Road Transport, TransDoc number is required",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 395,
+    "message": "Eway Bill Number should be numeric only",
+    "reason": "Eway Bill Number should be numeric only",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 396,
+    "message": "Either Eway Bill Number Or Consolidated Eway Bill Number is required for Verification",
+    "reason": "Either Eway Bill Number Or Consolidated Eway Bill Number is required for Verification",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 397,
+    "message": "Error in Multi Vehicle Movement Initiation",
+    "reason": "Error in Multi Vehicle Movement Initiation",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 398,
+    "message": "Eway Bill Item List is Empty",
+    "reason": "Eway Bill Item List is Empty",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 399,
+    "message": "Unit Code is not matching with any of the Unit Code from ItemList",
+    "reason": "Unit Code is not matching with any of the Unit Code from ItemList",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 400,
+    "message": "total quantity is exceeding from multi vehicle movement initiation quantity",
+    "reason": "total quantity is exceeding from multi vehicle movement initiation quantity",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 401,
+    "message": "Error in inserting multi vehicle details",
+    "reason": "Error in inserting multi vehicle details",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 402,
+    "message": "total quantity can not be less than or equal to zero",
+    "reason": "total quantity can not be less than or equal to zero",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 403,
+    "message": "Error in multi vehicle details",
+    "reason": "Error in multi vehicle details",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 405,
+    "message": "No record found for multi vehicle update with specified ewbNo groupNo and old vehicleNo/transDocNo with status as ACT",
+    "reason": "No record found for multi vehicle update with specified ewbNo groupNo and old vehicleNo/transDocNo with status as ACT",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 406,
+    "message": "Group number cannot be empty or zero",
+    "reason": "Group number cannot be empty or zero",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 407,
+    "message": "Invalid old vehicle number format",
+    "reason": "Invalid old vehicle number format",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 408,
+    "message": "Invalid new vehicle number format",
+    "reason": "Invalid new vehicle number format",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 409,
+    "message": "Invalid old transDoc number",
+    "reason": "Invalid old transDoc number",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 410,
+    "message": "Invalid new transDoc number",
+    "reason": "Invalid new transDoc number",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 411,
+    "message": "Multi Vehicle Initiation data is not there for specified ewayBill and group No",
+    "reason": "Multi Vehicle Initiation data is not there for specified ewayBill and group No",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 412,
+    "message": "Multi Vehicle movement is already Initiated,hence PART B updation not allowed",
+    "reason": "Multi Vehicle movement is already Initiated,hence PART B updation not allowed",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 413,
+    "message": "Unit Code is not matching with unit code of first initiaton",
+    "reason": "Unit Code is not matching with unit code of first initiaton",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 415,
+    "message": "Error in fetching in verification data for officer",
+    "reason": "Error in fetching in verification data for officer",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 416,
+    "message": "Date range is exceeding allowed date range",
+    "reason": "Date range is exceeding allowed date range",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 417,
+    "message": "No verification data found for officer",
+    "reason": "No verification data found for officer",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 418,
+    "message": "No record found",
+    "reason": "No record found",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 419,
+    "message": "Error in fetching search result for taxpayer/transporter",
+    "reason": "Error in fetching search result for taxpayer/transporter",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 420,
+    "message": "Minimum six character required for Tradename/legalname search",
+    "reason": "Minimum six character required for Tradename/legalname search",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 421,
+    "message": "Invalid pincode",
+    "reason": "Invalid pincode",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 422,
+    "message": "Invalid mobile number",
+    "reason": "Invalid mobile number",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 423,
+    "message": "Error in fetching ewaybill list by vehicle number",
+    "reason": "Error in fetching ewaybill list by vehicle number",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 424,
+    "message": "Invalid PAN number",
+    "reason": "Invalid PAN number",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 432,
+    "message": "invalid vehicle released value",
+    "reason": "invalid vehicle released value",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 433,
+    "message": "invalid goods detained parameter value",
+    "reason": "invalid goods detained parameter value",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 434,
+    "message": "invalid ewbNoAvailable parameter value",
+    "reason": "invalid ewbNoAvailable parameter value",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 435,
+    "message": "Part B is already updated,hence updation is not allowed",
+    "reason": "Part B is already updated,hence updation is not allowed",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 436,
+    "message": "Invalid email id",
+    "reason": "Invalid email id",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 442,
+    "message": "Error in inserting verification details",
+    "reason": "Error in inserting verification details",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 443,
+    "message": "invalid invoice available value",
+    "reason": "invalid invoice available value",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 444,
+    "message": "This eway bill cannot be cancelled as it is generated from Eway Bill 1",
+    "reason": "This eway bill cannot be cancelled as it is generated from Eway Bill 1",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 445,
+    "message": "This eway bill cannot be cancelled as it is generated from Eway Bill 2",
+    "reason": "This eway bill cannot be cancelled as it is generated from Eway Bill 2",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 446,
+    "message": "Transport details cannot be updated here as it is generated from Eway Bill 1",
+    "reason": "Transport details cannot be updated here as it is generated from Eway Bill 1",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 447,
+    "message": "Transport details cannot be updated here as it is generated from Eway Bill 2",
+    "reason": "Transport details cannot be updated here as it is generated from Eway Bill 2",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 448,
+    "message": "Part B cannot be updated as this Ewaybill Part A is generated in Eway Bill 1",
+    "reason": "Part B cannot be updated as this Ewaybill Part A is generated in Eway Bill 1",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 449,
+    "message": "Part B cannot be updated as this Ewaybill Part A is generated in Eway Bill 2",
+    "reason": "Part B cannot be updated as this Ewaybill Part A is generated in Eway Bill 2",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 450,
+    "message": "For outward-export ewaybill, To GSTIN has to be either URP or SEZ",
+    "reason": "For outward-export ewaybill, To GSTIN has to be either URP or SEZ",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 451,
+    "message": "For inward-import ewaybill, From GSTIN has to be either URP or SEZ",
+    "reason": "For inward-import ewaybill, From GSTIN has to be either URP or SEZ",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 452,
+    "message": "Consolidate Ewaybill cannot be generated as this Ewaybill Part A is generated in Eway Bill 2",
+    "reason": "Consolidate Ewaybill cannot be generated as this Ewaybill Part A is generated in Eway Bill 2",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 600,
+    "message": "Invalid category",
+    "reason": "Invalid category",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 601,
+    "message": "Invalid date format",
+    "reason": "Invalid date format",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 602,
+    "message": "Invalid File Number",
+    "reason": "Invalid File Number",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 603,
+    "message": "For file details file number is required",
+    "reason": "For file details file number is required",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 604,
+    "message": "E-way bill(s) are already generated for the same document number, you cannot generate again on same document number",
+    "reason": "E-way bill(s) are already generated for the same document number, you cannot generate again on same document number",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 605,
+    "message": "If the goods are moving towards transporter location, the value of toTransporterLoc should be Y",
+    "reason": "If the goods are moving towards transporter location, the value of toTransporterLoc should be Y",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 606,
+    "message": "Vehicle type is mandatory, if the goods are moving to transporter place",
+    "reason": "Vehicle type is mandatory, if the goods are moving to transporter place",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 607,
+    "message": "dispatch from gstin is mandatary",
+    "reason": "dispatch from gstin is mandatary",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 608,
+    "message": "ship to from gstin is mandatary",
+    "reason": "ship to from gstin is mandatary",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 609,
+    "message": "invalid ship to from gstin",
+    "reason": "invalid ship to from gstin",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 610,
+    "message": "invalid dispatch from gstin",
+    "reason": "invalid dispatch from gstin",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 611,
+    "message": "invalid document type for the given supply type",
+    "reason": "invalid document type for the given supply type",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 612,
+    "message": "Invalid transaction type",
+    "reason": "Invalid transaction type",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 614,
+    "message": "Transaction type is mandatory",
+    "reason": "Transaction type is mandatory",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 617,
+    "message": "Bill-from and dispatch-from gstin should not be same for this transaction type",
+    "reason": "Bill-from and dispatch-from gstin should not be same for this transaction type",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 618,
+    "message": "Bill-to and ship-to gstin should not be same for this transaction type",
+    "reason": "Bill-to and ship-to gstin should not be same for this transaction type",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 619,
+    "message": "Transporter Id is mandatory for generation of Part A slip",
+    "reason": "Transporter Id is mandatory for generation of Part A slip",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 620,
+    "message": "Total invoice value cannot be less than the sum of total assessible value and tax values",
+    "reason": "Total invoice value cannot be less than the sum of total assessible value and tax values",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 621,
+    "message": "trans mode is mandatory since vehicle number is present",
+    "reason": "trans mode is mandatory since vehicle number is present",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 622,
+    "message": "trans mode is mandatory since trans doc number is present",
+    "reason": "trans mode is mandatory since trans doc number is present",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 627,
+    "message": "Total value should not be negative",
+    "reason": "Total value should not be negative",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 628,
+    "message": "Total invoice value should not be negative",
+    "reason": "Total invoice value should not be negative",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 629,
+    "message": "IGST value should not be negative",
+    "reason": "IGST value should not be negative",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 630,
+    "message": "CGST value should not be negative",
+    "reason": "CGST value should not be negative",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 631,
+    "message": "SGST value should not be negative",
+    "reason": "SGST value should not be negative",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 632,
+    "message": "Cess value should not be negative",
+    "reason": "Cess value should not be negative",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 633,
+    "message": "Cess non advol should not be negative",
+    "reason": "Cess non advol should not be negative",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 634,
+    "message": "Vehicle type should not be ODC when transmode is other than road",
+    "reason": "Vehicle type should not be ODC when transmode is other than road",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 635,
+    "message": "You cannot update part B, as the current tranporter is already entered Part B details of the eway bill",
+    "reason": "You cannot update part B, as the current tranporter is already entered Part B details of the eway bill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 636,
+    "message": "You are not assigned to update part B",
+    "reason": "You are not assigned to update part B",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 637,
+    "message": "You cannot extend ewaybill, as the current tranporter is already entered Part B details of the ewaybill",
+    "reason": "You cannot extend ewaybill, as the current tranporter is already entered Part B details of the ewaybill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 638,
+    "message": "Transport mode is mandatory as Vehicle Number/Transport Document Number is given",
+    "reason": "Transport mode is mandatory as Vehicle Number/Transport Document Number is given",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 640,
+    "message": "Tolal Invoice value is mandatory",
+    "reason": "Tolal Invoice value is mandatory",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 641,
+    "message": "For outward CKD/SKD/Lots supply type, Bill To state should be as Other Country, since the  Bill To GSTIN given is of SEZ unit",
+    "reason": "For outward CKD/SKD/Lots supply type, Bill To state should be as Other Country, since the  Bill To GSTIN given is of SEZ unit",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 642,
+    "message": "For inward CKD/SKD/Lots supply type, Bill From state should be as Other Country, since the  Bill From GSTIN given is of SEZ unit",
+    "reason": "For inward CKD/SKD/Lots supply type, Bill From state should be as Other Country, since the  Bill From GSTIN given is of SEZ unit",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 643,
+    "message": "For regular transaction, Bill from state code and Dispatch from state code should be same",
+    "reason": "For regular transaction, Bill from state code and Dispatch from state code should be same",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 644,
+    "message": "For regular transaction, Bill to state code and Ship to state code should be same",
+    "reason": "For regular transaction, Bill to state code and Ship to state code should be same",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 645,
+    "message": "You cannot do Multi Vehicle movement, as current transporeter already entered part B",
+    "reason": "You cannot do Multi Vehicle movement, as current transporeter already entered part B",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 646,
+    "message": "You are not assigned to do multi vehicle movement",
+    "reason": "You are not assigned to do multi vehicle movement",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 647,
+    "message": "Could not insert RFID data, please contact to helpdesk",
+    "reason": "Could not insert RFID data, please contact to helpdesk",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 648,
+    "message": "Multi Vehicle movement is already Initiated,hence generation of consolidated eway bill is not allowed",
+    "reason": "Multi Vehicle movement is already Initiated,hence generation of consolidated eway bill is not allowed",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 649,
+    "message": "You cannot generate consolidated eway bill , as the current tranporter is already entered Part B details of the eway bill",
+    "reason": "You cannot generate consolidated eway bill , as the current tranporter is already entered Part B details of the eway bill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 650,
+    "message": "You are not assigned to generate consolidated ewaybill",
+    "reason": "You are not assigned to generate consolidated ewaybill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 651,
+    "message": "For Category PartA or PartB ewbDt is mandatory",
+    "reason": "For Category PartA or PartB ewbDt is mandatory",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 652,
+    "message": "For Category EWB03 procDt is mandatory",
+    "reason": "For Category EWB03 procDt is mandatory",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 653,
+    "message": "The Ewaybill is cancelled",
+    "reason": "The Ewaybill is cancelled",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 654,
+    "message": "This GSTIN has generated a common Enrolment Number. Hence you are not allowed to generate Eway bill",
+    "reason": "This GSTIN has generated a common Enrolment Number. Hence you are not allowed to generate Eway bill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 655,
+    "message": "This GSTIN has generated a common Enrolment Number. Hence you cannot mention it as a transporter",
+    "reason": "This GSTIN has generated a common Enrolment Number. Hence you cannot mention it as a transporter",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 656,
+    "message": "This Eway Bill does not belongs to your state",
+    "reason": "This Eway Bill does not belongs to your state",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 657,
+    "message": "Eway Bill Category wise details will be available after 4 days only",
+    "reason": "Eway Bill Category wise details will be available after 4 days only",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 658,
+    "message": "You are blocked for accesing this API as the allowed number of requests has been exceeded",
+    "reason": "You are blocked for accesing this API as the allowed number of requests has been exceeded",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 659,
+    "message": "Remarks is mandatory",
+    "reason": "Remarks is mandatory",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 670,
+    "message": "Invalid Month Parameter",
+    "reason": "Invalid Month Parameter",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 671,
+    "message": "Invalid Year Parameter",
+    "reason": "Invalid Year Parameter",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 672,
+    "message": "User Id is mandatory",
+    "reason": "User Id is mandatory",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 673,
+    "message": "Error in getting officer dashboard",
+    "reason": "Error in getting officer dashboard",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 675,
+    "message": "Error in getting EWB03 details by acknowledgement date range",
+    "reason": "Error in getting EWB03 details by acknowledgement date range",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 678,
+    "message": "Invalid Uniq No",
+    "reason": "Invalid Uniq No",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 679,
+    "message": "Invalid EWB03 Ack No",
+    "reason": "Invalid EWB03 Ack No",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 680,
+    "message": "Invalid Close Reason",
+    "reason": "Invalid Close Reason",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 681,
+    "message": "Error in Closing EWB  Verification Data",
+    "reason": "Error in Closing EWB  Verification Data",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 682,
+    "message": "No Record available to Close",
+    "reason": "No Record available to Close",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 683,
+    "message": "Error in fetching WatchList Data",
+    "reason": "Error in fetching WatchList Data",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 700,
+    "message": "You are not assigned to extend e-waybill",
+    "reason": "You are not assigned to extend e-waybill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 711,
+    "message": "Invalid value for isInTransit field",
+    "reason": "Invalid value for isInTransit field",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 712,
+    "message": "Transit Type is not required as the good are not in movement",
+    "reason": "Transit Type is not required as the good are not in movement",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 713,
+    "message": "Transit Address is not required as the good are not in movement",
+    "reason": "Transit Address is not required as the good are not in movement",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 714,
+    "message": "Document type - Tax Invoice is not allowed for composite tax payer",
+    "reason": "Document type - Tax Invoice is not allowed for composite tax payer",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 715,
+    "message": "The Consignor GSTIN is blocked from e-waybill generation as Return is not filed for past 2 months",
+    "reason": "The Consignor GSTIN is blocked from e-waybill generation as Return is not filed for past 2 months",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 716,
+    "message": "The Consignee GSTIN is blocked from e-waybill generation as Return is not filed for past 2 months",
+    "reason": "The Consignee GSTIN is blocked from e-waybill generation as Return is not filed for past 2 months",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 717,
+    "message": "The Transporter GSTIN is blocked from e-waybill generation as Return is not filed for past 2 months",
+    "reason": "The Transporter GSTIN is blocked from e-waybill generation as Return is not filed for past 2 months",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 718,
+    "message": "The User GSTIN is blocked from Transporter Updation as Return is not filed for past 2 months",
+    "reason": "The User GSTIN is blocked from Transporter Updation as Return is not filed for past 2 months",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 719,
+    "message": "The Transporter GSTIN is blocked from Transporter Updation as Return is not filed for past 2 months",
+    "reason": "The Transporter GSTIN is blocked from Transporter Updation as Return is not filed for past 2 months",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 800,
+    "message": "Redis server Is not Working  try after some time",
+    "reason": "Redis server Is not Working  try after some time",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 801,
+    "message": "Transporter id is not required for ewaybill for gold",
+    "reason": "Transporter id is not required for ewaybill for gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 802,
+    "message": "Transporter name is not required for ewaybill for gold",
+    "reason": "Transporter name is not required for ewaybill for gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 803,
+    "message": "TransDocNo is not required for ewaybill for gold",
+    "reason": "TransDocNo is not required for ewaybill for gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 804,
+    "message": "TransDocDate is not required for ewaybill for gold",
+    "reason": "TransDocDate is not required for ewaybill for gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 805,
+    "message": "Vehicle No is not required for ewaybill for gold",
+    "reason": "Vehicle No is not required for ewaybill for gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 806,
+    "message": "Vehicle Type is not required for ewaybill for gold",
+    "reason": "Vehicle Type is not required for ewaybill for gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 807,
+    "message": "Transmode is mandatory for ewaybill for gold",
+    "reason": "Transmode is mandatory for ewaybill for gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 808,
+    "message": "Inter-State ewaybill is not allowed for gold",
+    "reason": "Inter-State ewaybill is not allowed for gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 809,
+    "message": "Other items are not allowed with eway bill for gold",
+    "reason": "Other items are not allowed with eway bill for gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 810,
+    "message": "Transport can not be updated for EwayBill For Gold",
+    "reason": "Transport can not be updated for EwayBill For Gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 811,
+    "message": "Vehicle can not be updated for EwayBill For Gold",
+    "reason": "Vehicle can not be updated for EwayBill For Gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 812,
+    "message": "ConsolidatedEWB cannot be generated for EwayBill For Gold",
+    "reason": "ConsolidatedEWB cannot be generated for EwayBill For Gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 813,
+    "message": "Transporter id is not required for ewaybill for gold",
+    "reason": "Transporter id is not required for ewaybill for gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 814,
+    "message": "Transporter name is not required for ewaybill for gold",
+    "reason": "Transporter name is not required for ewaybill for gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 815,
+    "message": "TransDocNo is not required for ewaybill for gold",
+    "reason": "TransDocNo is not required for ewaybill for gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 816,
+    "message": "TransDocDate is not required for ewaybill for gold",
+    "reason": "TransDocDate is not required for ewaybill for gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 817,
+    "message": "Vehicle No is not required for ewaybill for gold",
+    "reason": "Vehicle No is not required for ewaybill for gold",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 818,
+    "message": "Validity period lapsed.Cannot generate consolidated Eway Bill",
+    "reason": "Validity period lapsed.Cannot generate consolidated Eway Bill",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 819,
+    "message": "Ewaybill cannot be generated for the document date which is prior to 01/07/2017",
+    "reason": "Ewaybill cannot be generated for the document date which is prior to 01/07/2017",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 820,
+    "message": "You cannot generate e-Waybill with document date earlier than 180 days",
+    "reason": "You cannot generate e-Waybill with document date earlier than 180 days",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 821,
+    "message": "e-Waybill cannot be extended as the allowed limit is 360 days",
+    "reason": "e-Waybill cannot be extended as the allowed limit is 360 days",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  },
+  {
+    "code": 822,
+    "message": "Both supplier and recipient cannot be URP",
+    "reason": "Both supplier and recipient cannot be URP",
+    "resolution": "Verify the request parameters as per E-Way Bill portal guidelines."
+  }
+]
