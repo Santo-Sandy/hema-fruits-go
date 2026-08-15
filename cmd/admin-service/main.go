@@ -13,10 +13,8 @@ import (
 
 func main() {
 	// Load environment variables
-	err := godotenv.Load()
-	if err != nil {
-		log.Println("Warning: Error loading .env file, continuing with default environment variables")
-	}
+	godotenv.Load()
+	godotenv.Load("cmd/admin-service/.env")
 
 	// Initialize MongoDB Connection
 	config.InitDB()
