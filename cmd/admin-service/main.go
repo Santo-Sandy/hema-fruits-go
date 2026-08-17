@@ -29,6 +29,7 @@ func main() {
 	app.Use(middleware.CORS())
 
 	// -- PUBLIC ROUTES --
+	handlers.SetupStoreRoutes(app)
 	
 	// SSO and Email logins
 	app.Post("/market-auth/login", handlers.LoginHandler)
