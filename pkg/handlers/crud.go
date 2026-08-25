@@ -34,7 +34,7 @@ func GetDocByIdHandler(c *fiber.Ctx) error {
 
 // PostDocHandler creates a new document dynamically
 func PostDocHandler(c *fiber.Ctx) error {
-	colName := c.Params("model_name")
+	colName := c.Params("collectionName")
 	userToken := middleware.GetUserTokenValue(c)
 
 	var doc bson.M
@@ -70,7 +70,7 @@ func PostDocHandler(c *fiber.Ctx) error {
 
 // PutDocByIDHandlers updates a document dynamically
 func PutDocByIDHandlers(c *fiber.Ctx) error {
-	colName := c.Params("model_name")
+	colName := c.Params("collectionName")
 	id := c.Params("id")
 	userToken := middleware.GetUserTokenValue(c)
 
