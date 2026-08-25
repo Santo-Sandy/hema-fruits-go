@@ -30,6 +30,64 @@ func GenerateUniqueKey() string {
 	return hex.EncodeToString(b)
 }
 
+// SeedDefaultUsers creates the 3 demo users if they don't already exist.
+// Credentials: admin@fruits.com, seller@fruits.com, buyer@fruits.com / password1234
+func SeedDefaultUsers() {
+	db := config.GetDB()
+	ctx := context.Background()
+
+	type seedUser struct {
+		email    string
+		name     string
+		role     string
+		mobile   string
+		id       string
+	}
+
+	seeds := []seedUser{
+		{email: "admin@fruits.com", name: "Admin User", role: "admin", mobile: "9000000001", id: "usr_admin_seed_001"},
+		{email: "seller@fruits.com", name: "Seller User", role: "processor", mobile: "9000000002", id: "usr_seller_seed_002"},
+		{email: "buyer@fruits.com", name: "Buyer User", role: "buyer", mobile: "9000000003", id: "usr_buyer_seed_003"},
+	}
+
+	hashedPwd, err := bcrypt.GenerateFromPassword([]byte("password1234"), bcrypt.DefaultCost)
+	if err != nil {
+		fmt.Printf("SeedDefaultUsers: failed to hash password: %v\n", err)
+		return
+	}
+
+	for _, s := range seeds {
+		count, _ := db.Collection("users").CountDocuments(ctx, bson.M{"email": s.email})
+		if count > 0 {
+			fmt.Printf("SeedDefaultUsers: user %s already exists, skipping\n", s.email)
+			continue
+		}
+
+		doc := bson.M{
+			"_id":                 s.id,
+			"email":               s.email,
+			"name":                s.name,
+			"role":                s.role,
+			"mobile_number":       s.mobile,
+			"pwd":                 primitive.Binary{Data: hashedPwd},
+			"is_profile_complete": true,
+			"points":              int32(0),
+			"first_login":         false,
+			"isrewardgiven":       false,
+			"profilePicture":      "",
+			"created_on":          time.Now().UTC(),
+		}
+
+		_, err := db.Collection("users").InsertOne(ctx, doc)
+		if err != nil {
+			fmt.Printf("SeedDefaultUsers: failed to insert %s: %v\n", s.email, err)
+		} else {
+			fmt.Printf("SeedDefaultUsers: created user %s (role=%s)\n", s.email, s.role)
+		}
+	}
+}
+
+
 // GenerateJWTToken creates a token valid for ExpiryMinutes
 func GenerateJWTToken(claims jwt.MapClaims, ExpiryMinutes int) string {
 	claims["iat"] = time.Now().Unix()

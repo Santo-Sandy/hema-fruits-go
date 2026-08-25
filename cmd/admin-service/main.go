@@ -19,6 +19,13 @@ func main() {
 	// Initialize MongoDB Connection
 	config.InitDB()
 
+	// Seed default users (admin@fruits.com, seller@fruits.com, buyer@fruits.com)
+	// and complete store data (categories, products, banners, settings)
+	go func() {
+		handlers.SeedDefaultUsers()
+		handlers.SeedStoreData()
+	}()
+
 	// Initialize Fiber application
 	app := fiber.New(fiber.Config{
 		AppName:   "Hema Fruits REST API",
