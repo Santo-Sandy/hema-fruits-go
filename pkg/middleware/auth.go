@@ -1,12 +1,14 @@
 package middleware
 
 import (
+	"os"
 	"strings"
+
+	"hema-fruits-go/pkg/config"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/golang-jwt/jwt/v4"
-	"hema-fruits-go/pkg/config"
 )
 
 // Org represents the organization context
@@ -25,12 +27,18 @@ type UserToken struct {
 
 // CORS returns CORS middleware configuration
 func CORS() fiber.Handler {
+	allowedOrigins := os.Getenv("CORS_ALLOWED_ORIGINS")
+	allowCredentials := true
+	if allowedOrigins == "" {
+		allowedOrigins = "*"
+		allowCredentials = false
+	}
 	return cors.New(cors.Config{
-		AllowOrigins:     "*",
+		AllowOrigins:     allowedOrigins,
 		AllowHeaders:     "OrgId, orgid, Origin, Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, X-Requested-With, Cache-Control, fcmToken",
 		AllowMethods:     "POST, GET, PUT, OPTIONS, DELETE, HEAD",
 		ExposeHeaders:    "Content-Type, Cache-Control, Connection, Transfer-Encoding",
-		AllowCredentials: false,
+		AllowCredentials: allowCredentials,
 	})
 }
 

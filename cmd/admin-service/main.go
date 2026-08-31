@@ -28,6 +28,13 @@ func main() {
 	// Setup CORS Middlewares globally
 	app.Use(middleware.CORS())
 
+	// Health check endpoint
+	app.Get("/health", func(c *fiber.Ctx) error {
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{
+			"status": "ok",
+		})
+	})
+
 	// -- PUBLIC ROUTES --
 	handlers.SetupStoreRoutes(app)
 	
@@ -85,9 +92,16 @@ func main() {
 		})
 	})
 
-	listenUrl := os.Getenv("ADMIN_SERVER_LISTEN_URL")
-	if listenUrl == "" {
-		listenUrl = "0.0.0.0:7002"
+	// Determine port and listen URL
+	port := os.Getenv("PORT")
+	var listenUrl string
+	if port != "" {
+		listenUrl = ":" + port
+	} else {
+		listenUrl = os.Getenv("ADMIN_SERVER_LISTEN_URL")
+		if listenUrl == "" {
+			listenUrl = "0.0.0.0:7002"
+		}
 	}
 
 	log.Printf("Starting Hema Fruits API Server on %s\n", listenUrl)

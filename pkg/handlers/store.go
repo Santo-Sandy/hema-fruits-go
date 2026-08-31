@@ -230,7 +230,41 @@ func GetCartHandler(c *fiber.Ctx) error {
 		cart = &Cart{UserID: userID, Items: []CartItem{}, DeliveryFee: 35, PackagingFee: 15}
 		userCarts[userID] = cart
 	}
+	recalculateCartTotals(cart)
 	return c.JSON(fiber.Map{"success": true, "cart": cart})
+}
+
+func recalculateCartTotals(cart *Cart) {
+	cart.ItemTotal = 0
+	cart.TotalMRP = 0
+	for _, item := range cart.Items {
+		cart.ItemTotal += item.UnitPrice * float64(item.Quantity)
+		cart.TotalMRP += item.MRP * float64(item.Quantity)
+	}
+	cart.DiscountTotal = cart.TotalMRP - cart.ItemTotal
+	if cart.ItemTotal >= 499 || len(cart.Items) == 0 {
+		cart.DeliveryFee = 0
+	} else {
+		cart.DeliveryFee = 35
+	}
+	if len(cart.Items) == 0 {
+		cart.PackagingFee = 0
+	} else {
+		cart.PackagingFee = 15
+	}
+
+	if cart.AppliedCouponCode == "FRESH100" {
+		cart.CouponDiscount = 100
+	} else if cart.AppliedCouponCode == "FRESH50" {
+		cart.CouponDiscount = 50
+	} else {
+		cart.CouponDiscount = 0
+	}
+
+	cart.GrandTotal = cart.ItemTotal + cart.DeliveryFee + cart.PackagingFee - cart.CouponDiscount
+	if cart.GrandTotal < 0 {
+		cart.GrandTotal = 0
+	}
 }
 
 func AddOrUpdateCartItemHandler(c *fiber.Ctx) error {
@@ -244,16 +278,61 @@ func AddOrUpdateCartItemHandler(c *fiber.Ctx) error {
 		cart = &Cart{UserID: userID, Items: []CartItem{}, DeliveryFee: 35, PackagingFee: 15}
 		userCarts[userID] = cart
 	}
-	cart.Items = append(cart.Items, item)
+
+	found := false
+	for i, x := range cart.Items {
+		if x.VariantID == item.VariantID {
+			cart.Items[i].Quantity = item.Quantity
+			cart.Items[i].TotalPrice = item.UnitPrice * float64(item.Quantity)
+			if cart.Items[i].Quantity <= 0 {
+				cart.Items = append(cart.Items[:i], cart.Items[i+1:]...)
+			}
+			found = true
+			break
+		}
+	}
+	if !found && item.Quantity > 0 {
+		item.TotalPrice = item.UnitPrice * float64(item.Quantity)
+		cart.Items = append(cart.Items, item)
+	}
+
+	recalculateCartTotals(cart)
 	return c.JSON(fiber.Map{"success": true, "cart": cart})
 }
 
 func RemoveCartItemHandler(c *fiber.Ctx) error {
-	return c.JSON(fiber.Map{"success": true})
+	userID := "demo_user"
+	variantID := c.Params("variantId")
+	cart, exists := userCarts[userID]
+	if exists {
+		for i, x := range cart.Items {
+			if x.VariantID == variantID {
+				cart.Items = append(cart.Items[:i], cart.Items[i+1:]...)
+				break
+			}
+		}
+		recalculateCartTotals(cart)
+	}
+	return c.JSON(fiber.Map{"success": true, "cart": cart})
 }
 
 func ApplyCouponHandler(c *fiber.Ctx) error {
-	return c.JSON(fiber.Map{"success": true, "discount": 100})
+	userID := "demo_user"
+	type CouponReq struct {
+		CouponCode string `json:"coupon_code"`
+	}
+	var req CouponReq
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(400).JSON(fiber.Map{"success": false, "message": err.Error()})
+	}
+	cart, exists := userCarts[userID]
+	if !exists {
+		cart = &Cart{UserID: userID, Items: []CartItem{}, DeliveryFee: 35, PackagingFee: 15}
+		userCarts[userID] = cart
+	}
+	cart.AppliedCouponCode = req.CouponCode
+	recalculateCartTotals(cart)
+	return c.JSON(fiber.Map{"success": true, "cart": cart})
 }
 
 func ValidateCheckoutHandler(c *fiber.Ctx) error {
@@ -261,13 +340,31 @@ func ValidateCheckoutHandler(c *fiber.Ctx) error {
 }
 
 func CreateOrderHandler(c *fiber.Ctx) error {
+	userID := "demo_user"
+	cart, exists := userCarts[userID]
+	var items []CartItem
+	var grandTotal float64 = 480
+	if exists {
+		items = make([]CartItem, len(cart.Items))
+		copy(items, cart.Items)
+		grandTotal = cart.GrandTotal
+		// Clear the cart on successful order placement
+		cart.Items = []CartItem{}
+		cart.AppliedCouponCode = ""
+		recalculateCartTotals(cart)
+	}
+
+	orderID := "ord_" + time.Now().Format("20060102150405")
+	orderNum := "HEMA-FRESH-" + time.Now().Format("150405")
+
 	order := &Order{
-		ID:                 "ord_101",
-		OrderNumber:        "HEMA-FRESH-9921",
-		UserID:             "demo_user",
+		ID:                 orderID,
+		OrderNumber:        orderNum,
+		UserID:             userID,
+		Items:              items,
 		PaymentMethod:      "UPI",
 		OrderStatus:        "PLACED",
-		GrandTotal:         480,
+		GrandTotal:         grandTotal,
 		DeliveryOTP:        "7194",
 		DeliveryAgentName:  "Ramesh (Express Delivery)",
 		DeliveryAgentPhone: "+91 98123 45678",
@@ -282,6 +379,7 @@ func GetUserOrdersHandler(c *fiber.Ctx) error {
 	for _, o := range storeOrders {
 		list = append(list, *o)
 	}
+	// Sort by PlacedAt descending or just return
 	return c.JSON(fiber.Map{"success": true, "orders": list})
 }
 
