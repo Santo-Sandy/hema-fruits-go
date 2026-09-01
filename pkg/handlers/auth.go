@@ -37,17 +37,28 @@ func SeedDefaultUsers() {
 	ctx := context.Background()
 
 	type seedUser struct {
-		email    string
-		name     string
-		role     string
-		mobile   string
-		id       string
+		email  string
+		name   string
+		role   string
+		mobile string
+		id     string
+		pic    string
 	}
 
 	seeds := []seedUser{
-		{email: "admin@fruits.com", name: "Admin User", role: "admin", mobile: "9000000001", id: "usr_admin_seed_001"},
-		{email: "seller@fruits.com", name: "Seller User", role: "processor", mobile: "9000000002", id: "usr_seller_seed_002"},
-		{email: "buyer@fruits.com", name: "Buyer User", role: "buyer", mobile: "9000000003", id: "usr_buyer_seed_003"},
+		// Admin Accounts
+		{email: "admin@fruits.com", name: "Super Admin User", role: "admin", mobile: "9000000001", id: "usr_admin_seed_001", pic: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300"},
+		{email: "operations@fruits.com", name: "Operations Manager", role: "admin", mobile: "9000000004", id: "usr_admin_seed_002", pic: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300"},
+
+		// Seller / Merchant Accounts
+		{email: "seller@fruits.com", name: "Green Valley Organic Farms", role: "processor", mobile: "9000000002", id: "usr_seller_seed_001", pic: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300"},
+		{email: "merchant@fruits.com", name: "Hema Cashew & Nut Traders", role: "processor", mobile: "9000000005", id: "usr_seller_seed_002", pic: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300"},
+		{email: "supplier@fruits.com", name: "Sunrise Agricultural Orchards", role: "processor", mobile: "9000000006", id: "usr_seller_seed_003", pic: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300"},
+
+		// Buyer / Customer Accounts
+		{email: "buyer@fruits.com", name: "Anita Sharma (Retail Buyer)", role: "buyer", mobile: "9000000003", id: "usr_buyer_seed_001", pic: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300"},
+		{email: "wholesaler@fruits.com", name: "Fresh Market Wholesalers", role: "buyer", mobile: "9000000007", id: "usr_buyer_seed_002", pic: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300"},
+		{email: "customer@fruits.com", name: "Rajesh Patel (Direct Customer)", role: "buyer", mobile: "9000000008", id: "usr_buyer_seed_003", pic: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300"},
 	}
 
 	hashedPwd, err := bcrypt.GenerateFromPassword([]byte("password1234"), bcrypt.DefaultCost)
@@ -74,7 +85,7 @@ func SeedDefaultUsers() {
 			"points":              int32(0),
 			"first_login":         false,
 			"isrewardgiven":       false,
-			"profilePicture":      "",
+			"profilePicture":      s.pic,
 			"created_on":          time.Now().UTC(),
 		}
 
@@ -198,6 +209,15 @@ func MarketSSoLoginHandler(c *fiber.Ctx) error {
 	var user models.User
 	err := userCollection.FindOne(context.Background(), bson.M{"email": req.Email}).Decode(&user)
 	if err == nil {
+		// Update profile picture if provided from Google SSO / Apple SSO
+		if req.ProfilePicture != "" {
+			userCollection.UpdateOne(
+				context.Background(),
+				bson.M{"email": req.Email},
+				bson.M{"$set": bson.M{"profilePicture": req.ProfilePicture}},
+			)
+			user.ProfilePicture = req.ProfilePicture
+		}
 		// User exists, generate token
 		claims := jwt.MapClaims{
 			"id":                user.ID,
