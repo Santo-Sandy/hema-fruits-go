@@ -172,6 +172,8 @@ func LoginHandler(c *fiber.Ctx) error {
 
 	token := GenerateJWTToken(claims, 525600) // ~1 year
 
+	delete(user, "pwd")
+
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"status": 200,
 		"data": fiber.Map{
@@ -179,6 +181,7 @@ func LoginHandler(c *fiber.Ctx) error {
 			"status":  "success",
 			"token":   token,
 			"org":     org,
+			"user":    user,
 		},
 	})
 }
@@ -232,6 +235,11 @@ func MarketSSoLoginHandler(c *fiber.Ctx) error {
 			"org":     org,
 			"message": "SSO login successful",
 			"token":   token,
+			"user":    user,
+			"data": fiber.Map{
+				"token": token,
+				"user":  user,
+			},
 		})
 	}
 
@@ -267,6 +275,11 @@ func MarketSSoLoginHandler(c *fiber.Ctx) error {
 		"status":  "success",
 		"message": "SSO login successful",
 		"token":   token,
+		"user":    newUser,
+		"data": fiber.Map{
+			"token": token,
+			"user":  newUser,
+		},
 	})
 }
 
