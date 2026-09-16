@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: hema-fruits-backend
+    runtime: go
+    plan: free
+    branch: main
+    buildCommand: go build -o server cmd/admin-service/main.go
+    startCommand: ./server
+    envVars:
+      - key: MONGODB_URI
+        value: mongodb+srv://slantzer3112_db_user:DgBQrV3AvAjvHQCx@cluster0.hrmuvsj.mongodb.net
+      - key: MONGODB_USERNAME
+        value: slantzer3112_db_user
+      - key: MONGODB_PASSWORD
+        value: DgBQrV3AvAjvHQCx
