@@ -42,11 +42,20 @@ func main() {
 		})
 	})
 
+	// Static files serving for uploaded images
+	app.Static("/uploads", "./uploads")
+
 	// -- PUBLIC ROUTES --
 	handlers.SetupStoreRoutes(app)
 	
-	// SSO and Email logins
+	// File / Image Uploads
+	app.Post("/file/*", handlers.UploadHandler)
+	app.Post("/api/v1/upload", handlers.UploadHandler)
+
+	// SSO, Email logins & Registration
 	app.Post("/market-auth/login", handlers.LoginHandler)
+	app.Post("/market-auth/register", handlers.RegisterHandler)
+	app.Post("/api/v1/auth/register", handlers.RegisterHandler)
 	app.Post("/market-auth/sso-login", handlers.MarketSSoLoginHandler)
 	app.Get("/market-auth/checklayoutlogin", handlers.CheckLayoutLogin)
 	app.Get("/market/imageurl", handlers.GetImageUrl)

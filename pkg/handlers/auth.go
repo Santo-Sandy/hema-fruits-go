@@ -8,6 +8,7 @@ import (
 	"math/big"
 	"net/smtp"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -82,9 +83,9 @@ func SeedDefaultUsers() {
 			"mobile_number":       s.mobile,
 			"pwd":                 primitive.Binary{Data: hashedPwd},
 			"is_profile_complete": true,
-			"points":              int32(0),
+			"points":              int32(1000),
 			"first_login":         false,
-			"isrewardgiven":       false,
+			"isrewardgiven":       true,
 			"profilePicture":      s.pic,
 			"created_on":          time.Now().UTC(),
 		}
@@ -96,6 +97,121 @@ func SeedDefaultUsers() {
 			fmt.Printf("SeedDefaultUsers: created user %s (role=%s)\n", s.email, s.role)
 		}
 	}
+}
+
+// RegisterHandler handles direct user registration (buyer, seller/processor, admin)
+func RegisterHandler(c *fiber.Ctx) error {
+	org, _ := middleware.GetOrg(c)
+
+	var req struct {
+		Email        string `json:"email"`
+		Password     string `json:"password"`
+		Name         string `json:"name"`
+		Role         string `json:"role"`
+		MobileNumber string `json:"mobile_number"`
+		Phone        string `json:"phone"`
+		StoreName    string `json:"store_name"`
+		Address      string `json:"address"`
+		City         string `json:"city"`
+		State        string `json:"state"`
+		Pincode      string `json:"pincode"`
+	}
+
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Invalid request body"})
+	}
+
+	email := strings.TrimSpace(strings.ToLower(req.Email))
+	if email == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Email is required"})
+	}
+	if req.Password == "" || len(req.Password) < 6 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Password must be at least 6 characters"})
+	}
+	if req.Name == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Name is required"})
+	}
+
+	role := strings.ToLower(strings.TrimSpace(req.Role))
+	if role == "" || (role != "buyer" && role != "processor" && role != "seller" && role != "admin") {
+		role = "buyer"
+	}
+
+	phone := req.MobileNumber
+	if phone == "" {
+		phone = req.Phone
+	}
+
+	db := config.GetDB()
+	if db == nil {
+		return c.Status(fiber.StatusServiceUnavailable).JSON(fiber.Map{"status": "error", "message": "Database not available"})
+	}
+
+	userCollection := db.Collection("users")
+
+	// Check duplicate email
+	count, err := userCollection.CountDocuments(context.Background(), bson.M{"email": email})
+	if err == nil && count > 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "An account with this email already exists"})
+	}
+
+	hashedPwd, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Password encryption failed"})
+	}
+
+	userId := "usr_" + GenerateUniqueKey()
+	defaultPic := "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300"
+	if role == "processor" || role == "seller" {
+		defaultPic = "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300"
+	}
+
+	userDoc := bson.M{
+		"_id":                 userId,
+		"email":               email,
+		"name":                req.Name,
+		"role":                role,
+		"mobile_number":       phone,
+		"store_name":          req.StoreName,
+		"address":             req.Address,
+		"city":                req.City,
+		"state":               req.State,
+		"pincode":             req.Pincode,
+		"pwd":                 primitive.Binary{Data: hashedPwd},
+		"is_profile_complete": true,
+		"points":              int32(1000), // 1000 starter reward points
+		"first_login":         false,
+		"isrewardgiven":       true,
+		"profilePicture":      defaultPic,
+		"created_on":          time.Now().UTC(),
+	}
+
+	_, err = userCollection.InsertOne(context.Background(), userDoc)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Failed to create user: " + err.Error()})
+	}
+
+	claims := jwt.MapClaims{
+		"id":                userId,
+		"role":              role,
+		"email":             email,
+		"uo_id":             org.Id,
+		"isProfileComplete": true,
+	}
+	token := GenerateJWTToken(claims, 525600)
+
+	delete(userDoc, "pwd")
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"status": 200,
+		"data": fiber.Map{
+			"success": true,
+			"status":  "success",
+			"token":   token,
+			"org":     org,
+			"user":    userDoc,
+		},
+	})
 }
 
 

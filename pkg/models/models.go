@@ -13,6 +13,11 @@ type User struct {
 	IsProfileComplete bool      `json:"is_profile_complete" bson:"is_profile_complete"`
 	ProfilePicture    string    `json:"profilePicture" bson:"profilePicture"`
 	MobileNumber      string    `json:"mobile_number" bson:"mobile_number"`
+	StoreName         string    `json:"store_name,omitempty" bson:"store_name,omitempty"`
+	Address           string    `json:"address,omitempty" bson:"address,omitempty"`
+	City              string    `json:"city,omitempty" bson:"city,omitempty"`
+	State             string    `json:"state,omitempty" bson:"state,omitempty"`
+	Pincode           string    `json:"pincode,omitempty" bson:"pincode,omitempty"`
 	FirstLogin        bool      `json:"first_login" bson:"first_login"`
 	IsRewardGiven     bool      `json:"isrewardgiven" bson:"isrewardgiven"`
 	CreatedAt         time.Time `json:"created_on" bson:"created_on"`

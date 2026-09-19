@@ -8,6 +8,7 @@ import (
 
 	"hema-fruits-go/pkg/config"
 	"hema-fruits-go/pkg/middleware"
+	"hema-fruits-go/pkg/models"
 
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
@@ -59,6 +60,8 @@ type Product struct {
 	IsOrganic           bool             `json:"is_organic" bson:"is_organic"`
 	QualityGrade        string           `json:"quality_grade" bson:"quality_grade"`
 	OriginRegion        string           `json:"origin_region" bson:"origin_region"`
+	SellerID            string           `json:"seller_id,omitempty" bson:"seller_id,omitempty"`
+	SellerName          string           `json:"seller_name,omitempty" bson:"seller_name,omitempty"`
 	Variants            []ProductVariant `json:"variants" bson:"variants"`
 	AvgRating           float64          `json:"avg_rating" bson:"avg_rating"`
 	ReviewCount         int              `json:"review_count" bson:"review_count"`
@@ -150,6 +153,10 @@ func SetupStoreRoutes(app *fiber.App) {
 	api.Get("/orders/:id", GetOrderByIDHandler)
 	api.Put("/orders/:id", UpdateOrderStatusHandler)
 	api.Delete("/orders/:id", DeleteOrderHandler)
+
+	// Admin & Users Stats
+	api.Get("/admin/stats", GetAdminStatsHandler)
+	api.Get("/users", GetStoreUsersHandler)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -225,6 +232,7 @@ func DeleteCategoryHandler(c *fiber.Ctx) error {
 
 func GetProductsHandler(c *fiber.Ctx) error {
 	catID := c.Query("category_id")
+	sellerID := c.Query("seller_id")
 	search := strings.ToLower(c.Query("search"))
 	organic := c.Query("organic")
 
@@ -238,6 +246,9 @@ func GetProductsHandler(c *fiber.Ctx) error {
 	filter := bson.M{}
 	if catID != "" {
 		filter["category_id"] = catID
+	}
+	if sellerID != "" {
+		filter["seller_id"] = sellerID
 	}
 	if organic == "true" {
 		filter["is_organic"] = true
@@ -276,6 +287,7 @@ func GetProductByIDHandler(c *fiber.Ctx) error {
 }
 
 func CreateProductHandler(c *fiber.Ctx) error {
+	userToken := middleware.GetUserTokenValue(c)
 	var prod Product
 	if err := c.BodyParser(&prod); err != nil {
 		return c.Status(400).JSON(fiber.Map{"success": false, "message": err.Error()})
@@ -283,8 +295,22 @@ func CreateProductHandler(c *fiber.Ctx) error {
 	if prod.ID == "" {
 		prod.ID = "prod_" + GenerateUniqueKey()
 	}
+	if prod.SellerID == "" && userToken.UserId != "" {
+		prod.SellerID = userToken.UserId
+	}
+
 	db := config.GetDB()
 	if db != nil {
+		if prod.SellerName == "" && prod.SellerID != "" {
+			var u models.User
+			if err := db.Collection("users").FindOne(context.Background(), bson.M{"_id": prod.SellerID}).Decode(&u); err == nil {
+				if u.StoreName != "" {
+					prod.SellerName = u.StoreName
+				} else {
+					prod.SellerName = u.Name
+				}
+			}
+		}
 		ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 		defer cancel()
 		db.Collection("products").InsertOne(ctx, prod)
@@ -703,7 +729,86 @@ func DeleteOrderHandler(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"success": true, "message": "Order deleted"})
 }
 
-// SeedStoreData seeds complete mock data for categories, products, and banners if collections are empty.
+// ─────────────────────────────────────────────────────────────────────────────
+// ADMIN & ANALYTICS HANDLERS
+// ─────────────────────────────────────────────────────────────────────────────
+
+// GetAdminStatsHandler returns aggregated overview metrics for Admin Dashboard
+func GetAdminStatsHandler(c *fiber.Ctx) error {
+	db := config.GetDB()
+	if db == nil {
+		return c.Status(503).JSON(fiber.Map{"success": false, "message": "Database not available"})
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	totalProducts, _ := db.Collection("products").CountDocuments(ctx, bson.M{})
+	totalUsers, _ := db.Collection("users").CountDocuments(ctx, bson.M{})
+	totalSellers, _ := db.Collection("users").CountDocuments(ctx, bson.M{"$or": bson.A{bson.M{"role": "processor"}, bson.M{"role": "seller"}}})
+	totalBuyers, _ := db.Collection("users").CountDocuments(ctx, bson.M{"role": "buyer"})
+	totalOrders, _ := db.Collection("orders").CountDocuments(ctx, bson.M{})
+
+	// Calculate gross revenue from orders
+	var orders []Order
+	cur, _ := db.Collection("orders").Find(ctx, bson.M{})
+	if cur != nil {
+		cur.All(ctx, &orders)
+	}
+	var totalRevenue float64
+	for _, o := range orders {
+		totalRevenue += o.GrandTotal
+	}
+
+	return c.JSON(fiber.Map{
+		"success": true,
+		"stats": fiber.Map{
+			"total_products": totalProducts,
+			"total_users":    totalUsers,
+			"total_sellers":  totalSellers,
+			"total_buyers":   totalBuyers,
+			"total_orders":   totalOrders,
+			"total_revenue":  totalRevenue,
+		},
+	})
+}
+
+// GetStoreUsersHandler returns registered accounts for Admin view
+func GetStoreUsersHandler(c *fiber.Ctx) error {
+	roleFilter := c.Query("role")
+	db := config.GetDB()
+	if db == nil {
+		return c.Status(503).JSON(fiber.Map{"success": false, "message": "Database not available"})
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	filter := bson.M{}
+	if roleFilter != "" {
+		if roleFilter == "seller" || roleFilter == "processor" {
+			filter["$or"] = bson.A{bson.M{"role": "processor"}, bson.M{"role": "seller"}}
+		} else {
+			filter["role"] = roleFilter
+		}
+	}
+
+	var users []bson.M
+	cur, err := db.Collection("users").Find(ctx, filter, options.Find().SetSort(bson.D{{Key: "created_on", Value: -1}}))
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"success": false, "message": "Failed to fetch users"})
+	}
+	if cur != nil {
+		cur.All(ctx, &users)
+	}
+	for i := range users {
+		delete(users[i], "pwd")
+	}
+
+	return c.JSON(fiber.Map{
+		"success": true,
+		"users":   users,
+	})
+}
+
 // SeedStoreData seeds complete mock data for categories, products, and banners if collections are empty.
 func SeedStoreData() {
 	db := config.GetDB()

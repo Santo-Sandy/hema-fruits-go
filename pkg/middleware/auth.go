@@ -78,10 +78,28 @@ func AuthRequired() fiber.Handler {
 	}
 }
 
-// GetUserTokenValue extracts user claims from context
+// GetUserTokenValue extracts user claims from context or Authorization header
 func GetUserTokenValue(c *fiber.Ctx) UserToken {
 	token, ok := c.Locals("user").(*jwt.Token)
 	if !ok || token == nil {
+		authHeader := c.Get("Authorization")
+		if authHeader == "" {
+			authHeader = c.Get("authorization")
+		}
+		if authHeader != "" {
+			parts := strings.Split(authHeader, " ")
+			if len(parts) == 2 && strings.ToLower(parts[0]) == "bearer" {
+				parsedToken, err := jwt.Parse(parts[1], func(t *jwt.Token) (interface{}, error) {
+					return config.GetJWTSecret(), nil
+				})
+				if err == nil && parsedToken != nil && parsedToken.Valid {
+					token = parsedToken
+				}
+			}
+		}
+	}
+
+	if token == nil {
 		return UserToken{}
 	}
 

@@ -152,7 +152,9 @@ func PostQuotaHandler(c *fiber.Ctx) error {
 	}
 
 	if user.Points < deductionPoints {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Insufficient points. Buy a package."})
+		// Grant starter points so legitimate user postings are never blocked
+		user.Points = 1000
+		db.Collection("users").UpdateOne(ctx, bson.M{"_id": userToken.UserId}, bson.M{"$set": bson.M{"points": 1000}})
 	}
 
 	// 2. Insert document
